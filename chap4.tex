@@ -1,0 +1,126 @@
+\chapter{Overview of the Theory of HYPERION}
+
+\section{Simulation}
+
+The basis of our simulation lies in the calculation of a visibility using 
+Eq.~\eqref{eq:vis}.
+
+\begin{equation}
+    \label{eq:vis}
+    V(u,v) = \int A(\hat{s}) \cdot T_{sky}(\hat{s}) ~e^{-2 \pi i \frac{\vec{b} 
+    \cdot \hat{s}}{\lambda}} d\Omega
+\end{equation}
+
+From this equation, we have three parameter spaces to play in: the beam of the 
+antenna $A(\hat{s})$, the brightness and spatial behavior of the sky 
+$T_{sky}(\hat{s})$, and the baseline vector $\vec{b}$. For ease of 
+organization, we'll now split our discussion into two parts, sky 
+characteristics vs. system characteristics.
+
+\subsection{Sky Characteristics \& Parameters}
+
+At present, our goal is to better understand how an interferometer receives 
+signal from a monopole sky, so we're only considering skies without any
+spatial variation. However, while we are only inputting spatially flat maps 
+into the simulation, spectral variation across our science band is an open 
+variable that we consider.  The simulation has functions for both 
+spectrally-flat (for calibration and verification purposes) and 
+synchrotron-characteristic sky maps, using Eq.~\eqref{eq:synch-temp} as our 
+basis for calculating brightness temperature as a function of frequency.  
+
+\begin{equation}
+    \label{eq:synch-temp}
+    T(\nu) = T(\nu_{150}) \Big(\frac{\nu}{\nu_{150}} \Big)^{-\beta}
+\end{equation}
+
+\subsection{System Characteristics \& Parameters}
+
+This leads us to the characteristics of our interferometer itself. Within this 
+framework, there are two key areas of interest to us: how our sensitivity to 
+the monopole varies with the separation between antennas, and how it changes in 
+the presence of different absorber structures and materials. Another way of 
+viewing it would be: how do the characteristics of the individual elements and 
+of the array design affect our ability to make this measurement.
+
+Let us first consider the array design, i.e. baseline separations. For this 
+simulation, we import a model array using the AIPy AntennaArray framework, 
+which enables us to carry around an array with known geometry and baseline 
+separations, along with individual antenna beam patterns and accessible 
+frequencies. With this information and the previously made sky maps, we are now 
+able to calculate our visibilities across many frequencies by using 
+Eq.~\eqref{eq:vis}.
+
+Intuitively, we expect that the sensitivity to the global signal will be 
+maximized with the smallest baseline separations, which correspond to a 
+position in the \emph{uv}-plane close to the origin, or the zero-spacing mode.  
+The trade-off of this, from a design perspective, comes in the difficulty of 
+ameliorating cross-talk in a densely packed array. We want to optimize our 
+array design to space our antennas as loosely as possible while also 
+maintaining workable sensitivity to the monopole term, as this will best enable 
+us to mitigate systemic problems in our instrument and perform a successful 
+experiment.
+
+The AntennaArray framework also enables us to carry around models of the beams 
+of the antennas, which is a convenient way to import absorbers into the 
+simulation. Essentially, within the context of the simulation, the absorbers 
+act as a modification term on the beam pattern, changing the way that each 
+individual antenna sees the sky. This works as follows:
+
+To start, we need a beam. HYPERION uses SARAS-style fat dipole antennas in our 
+instrument, which means we will be using a frequency-invariant dipole beam 
+pattern in our simulation to match~\citep{patra2013}. This is the base beam 
+model used throughout the simulation, calculated using 
+Eq.~\eqref{eq:dipole-beam}.
+
+\begin{equation}
+    \label{eq:dipole-beam}
+    A(\theta, \phi, \nu) = \cos\Big(\frac{\frac{\pi}{2} 
+    \cos{\theta}}{\sin{\theta}}\Big)
+\end{equation}
+
+The next step is to add the absorber, which we do via modification of the AIPy 
+Antenna beam. The absorber structure in our simulation is essentially a 
+cylindrical wall of uniform height centered around each antenna, so that the 
+antenna sees a rotationally symmetric structure. The parameters we can play 
+with are the absorptivity of the material (i.e. how much attenuation does the 
+absorber provide at each frequency), the height of the absorber walls, and how 
+smooth the transition from absorber to sky is. This calculation is done using 
+Eq.~\eqref{eq:absorber-baffle},
+
+\begin{equation}
+    \label{eq:absorber-baffle}
+    B(\theta, \phi, \nu) = \Big[10^{\alpha(\nu)/20} \Big(\frac{1}{2} + 
+    \frac{1}{2} \tanh\Big(\frac{\theta - (\frac{1}{2} - 
+    \theta_{0})}{a}\Big)\Big) + \Big(1 - \Big(\frac{1}{2} + \frac{1}{2} 
+    \tanh\Big(\frac{\theta - (\frac{1}{2} - \theta_{0})}{a}\Big)\Big)\Big)\Big]
+\end{equation}
+
+where $\alpha(\nu)$ is the absorptivity by frequency of the absorber, 
+$\theta_0$ is the cutoff angle of the structure (i.e. $\theta_0$ is the height 
+of the absorber walls), and $a$ is the smoothing parameter that blends the 
+transition between the absorber and the sky.
+
+This term is then combined with the Antenna beam, giving us 
+Eq.~\eqref{eq:absorber-beam}.
+
+\begin{equation}
+    \label{eq:absorber-beam}
+    A'(\theta, \phi, \nu) = A(\theta, \phi, \nu) B(\theta, \phi, \nu)
+\end{equation}
+
+\subsection{Calculating Visibilities by Baseline Separation}
+
+One of the fundamental constructs of the theory of astronomical interferometry 
+is that samples spatial variance on the sky. Interferometers, by nature, are 
+not designed to observe global light sources. Rather, interferometers excel at 
+observing differences -- a star or other point source will have light in one 
+place and no light everywhere else, galaxies will have clumpy, fluffy light in 
+some places but not all places. The interferometer can be built and designed to 
+observe some scales better than others, and can tease out these differential 
+light sources with great success.
+
+So one might reasonably be surprised to hear that we are taking an 
+interferometer and trying to do the one exact thing that it is, theoretically, 
+unequipped to handle: trying to observe a global average phenomenon on the sky.
+
+

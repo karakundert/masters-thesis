@@ -1,115 +1,134 @@
-\chapter{CHAPTER TITLE}
+\chapter{The Global Signal -- Its Physics and Significance to Cosmology}
 
-\section{Simulation}
+\section{Overview of the Epoch of Reionization}
 
-discuss: layout of simulation, frequency-invariant beam, how absorber acts as 
-modifier to the beam, math and measurements behind absorber vs. frequency, 
-everything that feeds into getting visibilities by u-mode
+In brief, the Epoch of Reionization refers to the period of the universe's 
+history during which its supply of intergalactic hydrogen became reionized.  
+This is important to its evolution, and therefore of interest to astronomers, 
+due to the driving factor of that ionization: the ignition of the first stars, 
+galaxies, and black holes in the universe. A positive detection of the Epoch of 
+Reionization will help astronomers to clarify many open questions of cosmology, 
+such as the properties of the first galaxies, how stars with zero metallicity 
+formed, the physics of early quasars, and more.
 
-The basis of our simulation lies in the calculation of a visibility using 
-Eq.~\eqref{eq:vis}.
+In slightly more detail, let us begin at the beginning. At the start of time, 
+the universe was extremely hot and ionized from the Big Bang. Over time, as 
+space itself expanded and the gas within the universe cooled adiabatically 
+along with that expansion, the temperature of the universe dropped low enough 
+that the nearly uniform ionized plasma that made up the universe was able to 
+recombine to form neutral hydrogen. This phase transition, which occurred 
+approximately 400,000 years after the Big Bang, enabled photons to decouple 
+from the baryonic matter, allowing photons to stream freely for the first time 
+in the history of the universe.  Those photons are what we now know as the 
+``Cosmic Microwave Background" (CMB).
 
-\begin{equation}
-    \label{eq:vis}
-    V(u,v) = \int A(\hat{s}) \cdot I_{sky}(\hat{s}) ~e^{-2 \pi i \frac{\vec{b} 
-    \cdot \hat{s}}{\lambda}} d\Omega
-\end{equation}
+At the point of the CMB, the gravitational force had heretofore always served 
+as second fiddle to the electromagnetic force, and the formation of structure 
+was driven solely by dark matter~\citep{zaroubi2012}.  As such, structure had 
+yet to form, and the release of the CMB led to a period known as the ``Dark 
+Ages" -- a time when the universe had nothing to do but slowly get to work 
+allowing slight matter over-densities grow and transform into stars, galaxies, 
+and black holes.
 
-From this equation, we have three parameter spaces to play in: the beam of the 
-antenna $A(\hat{s})$, the behavior of the sky $I_{sky}(\hat{s})$, and the 
-baseline vector $\vec{b}$. For ease of organization, we'll now split our 
-discussion into two parts, sky characteristics vs. system characteristics.
+So, about 100 million years passed and the universe bathed in nothing but the 
+after-glow of the Big Bang. Finally, the first galaxies formed, and along with 
+them bright stars to emit ionizing radiation. Soon, we find small ionized 
+bubbles in the intergalactic medium (IGM), the hydrogen gas filling the space 
+between galaxies. Over time, more galaxies and their bright stars make more 
+ionized bubbles, until eventually the entire universe's supply of loose 
+hydrogen gas has been converted into a proton-electron ionized plasma.
 
-\subsection{Sky Characteristics \& Parameters}
+This period, very creatively, is called the Epoch of Reionization -- the epoch 
+during which the universe once again became ionized, like it was at the dawn of 
+time.
 
-At present, our goal is to better understand how an interferometer receives 
-signal from a monopole sky, so we're only inputting skies without any
-spatial variation. However, while we are only inputting spatially flat maps 
-into the simulation, spectral variation across our science band is an option.  
-The simulation has functions for both spectrally-flat (for calibration and 
-verification purposes) and synchrotron-characteristic sky maps, using 
-Eq.~\eqref{eq:synch-temp} as our basis for calculating brightness temperature 
-as a function of frequency.  These maps are then converted to Janskys in order 
-to be usable as the $I_{sky}(\hat{s})$ term in the visibility calculation using 
-Eq.~\eqref{eq:vis}.
+As of yet, there has been no confirmed direct detection of this time period -- 
+either of the objects that drive it nor of the gas behavior itself. This is not 
+for lack of trying. There are currently (or soon to be) observatories looking 
+for high-redshift galaxies and quasars~\citep{gardner2006}, for power-spectrum 
+measurements to find ionized regions around those high-energy 
+objects~\citep{deboer2017}, and for the microscopic temperature changes in the 
+gas of the universe~\citep{bowman2018}.  As it turns out, these observations 
+are hard to make -- 13 billion light years is a long way for light to travel.
 
-\begin{equation}
-    \label{eq:synch-temp}
-    T(\nu) = T(\nu_{150}) \Big(\frac{\nu}{\nu_{150}} \Big)^{-\beta}
-\end{equation}
+For the sake of brevity and intellectual focus, this thesis (and the experiment 
+proposed within) will be focusing solely on observing the overall average 
+behavior of the intergalactic medium as it evolves throughout this time period.  
+This is referred to as the ``global signal".
 
-\subsection{System Characteristics \& Parameters}
+\section{Overview of the Global Signal}
 
-This leads us to the characteristics of our interferometer itself. Within this 
-framework, there are two key areas of interest to us: how our sensitivity to 
-the monopole varies with the separation between antennas, and how it changes in 
-the presence of different absorber structures and materials. Another way of 
-viewing it would be: how do the characteristics of the individual elements and 
-of the array design affect our ability to make this measurement.
+The global signal of reionization is an observation of the overall average 
+nature of hydrogen throughout this epoch, i.e. the spatially averaged signal 
+from the neutral hydrogen gas, as observed using redshifted 21 cm emission from 
+the intergalactic medium 13 billion years ago. More specifically, global signal 
+experiments seek to observe the relationship between the gas temperature and 
+the ambient temperature of the universe, as set by the CMB photons.  By 
+observing the evolution of the thermal gas temperature ($T_K$) relative to the 
+photon temperature ($T_\gamma$), we are able to better understand how and when 
+energy was injected into the gas~\citep{pritchard-loeb2010}. For example, the 
+X-rays generated by black holes contributed to the heating of the gas, making 
+the gas itself brighter than the ambient photons. Additionally, Lyman-$\alpha$ 
+photons from Population II and III stars modify the coupling of the IGM gas 
+temperature to the 21 cm spin temperature via the Wouthuysen-Field effect, 
+providing a means to track early star formation~\citep{furlanetto2006}.
 
-Let us first consider the array design, i.e. baseline separations. For this 
-simulation, we import a model array using the AIPy AntennaArray framework, 
-which enables us to carry around an array with known geometry and baseline 
-separations, along with individual antenna beam patterns and accessible 
-frequencies. With this information and the previously made sky maps, we are now 
-able to calculate our visibilities across many frequencies by using 
-Eq.~\eqref{eq:vis}.
+This signal ($T_b$) is measured as a function of four main variables -- the 
+thermal temperature of the hydrogen gas ($T_K$), the volume-averaged ionized 
+fraction of hydrogen ($x_i$), the specific flux of the Lyman-$\alpha$ frequency 
+($J_\alpha$), and the number density of hydrogen ($n_H$). One particularly 
+convenient aspect of $T_b$ is that its dependence on each of these quantities 
+saturates at some point, leading to clear and separate regimes in the history 
+of the signal that can only be described by the changes in one 
+variable~\citep{pritchard-loeb2012}. These regimes can be seen in 
+Fig.~\ref{fig:global-signal}, and are physically detailed below.
 
-Intuitively, we expect that the sensitivity to the global signal will be 
-maximized with the smallest baseline separations, which correspond to a 
-position in the \emph{uv}-plane close to the origin, or the zero-spacing mode.  
-The trade-off of this, from a design perspective, comes in the difficulty of 
-ameliorating cross-talk in a densely packed array. We want to optimize our 
-array design to space our antennas as loosely as possible while also 
-maintaining workable sensitivity to the monopole term, as this will best enable 
-us to mitigate systemic problems in our instrument and perform a successful 
-experiment.
+\begin{figure}
+    \begin{center}
+    \includegraphics[width=\linewidth]{global_signal.png}
+    \end{center}
+    \caption{
+        In the top half of the figure, we see a cartoon of the reionization 
+        history of the universe and the development and growth of ionized 
+        bubbles over time. In the bottom half, we see a breakdown of $T_b$, the 
+        brightness temperature of the 21 cm global signal, over time. There are 
+        five labeled regimes to this plot, each corresponding to the dominance 
+        of a different variable in the production of the 21 cm signal. Figure 
+        originally published in~\citealp{pritchard-loeb2012}.
+    }
+    \label{fig:global-signal}
+\end{figure}
 
-The AntennaArray framework also enables us to carry around models of the beams 
-of the antennas, which is a convenient way to import absorbers into the 
-simulation. Essentially, within the context of the simulation, the absorbers 
-act as a modification term on the beam pattern, changing the way that each 
-individual antenna sees the sky. This works as follows:
-
-To start, we need a beam. HYPERION uses SARAS-style fat dipole antennas in our 
-instrument, which means we need to use a frequency-invariant dipole beam 
-pattern in our simulation to match~\citep{patra2013}. This is the base beam 
-model used throughout the simulation, calculated using 
-Eq.~\eqref{eq:dipole-beam}.
-
-\begin{equation}
-    \label{eq:dipole-beam}
-    A(\theta, \phi, \nu) = \cos\Big(\frac{\frac{\pi}{2} 
-    \cos{\theta}}{\sin{\theta}}\Big)
-\end{equation}
-
-The next step is to add the absorber, which we do via modification of the AIPy 
-Antenna beam. The absorber structure in our simulation is essentially a 
-cylindrical wall of uniform height centered around each antenna, so that the 
-antenna sees a rotationally symmetric structure. The parameters we can play 
-with are the absorptivity of the material (i.e. how much attenuation does the 
-absorber provide at each frequency), the height of the absorber walls, and how 
-smooth the transition from absorber to sky is. This calculation is done using 
-Eq.~\eqref{eq:absorber-baffle},
-
-\begin{equation}
-    \label{eq:absorber-baffle}
-    B(\theta, \phi, \nu) = \Big[10^{\alpha(\nu)/20} \Big(\frac{1}{2} + 
-    \frac{1}{2} \tanh\Big(\frac{\theta - (\frac{1}{2} - 
-    \theta_{0})}{a}\Big)\Big) + \Big(1 - \Big(\frac{1}{2} + \frac{1}{2} 
-    \tanh\Big(\frac{\theta - (\frac{1}{2} - \theta_{0})}{a}\Big)\Big)\Big)\Big]
-\end{equation}
-
-where $\alpha(\nu)$ is the absorptivity by frequency of the absorber, 
-$\theta_0$ is the cutoff angle of the structure (i.e. $\theta_0$ is the height 
-of the absorber walls), and $a$ is the smoothing parameter that blends the 
-transition between the absorber and the sky.
-
-This term is then combined with the Antenna beam, giving us 
-Eq.~\eqref{eq:absorber-beam}.
-
-\begin{equation}
-    \label{eq:absorber-beam}
-    A'(\theta, \phi, \nu) = A(\theta, \phi, \nu) B(\theta, \phi, \nu)
-\end{equation}
+\subsection{Brief History of the Global Signal}
+\begin{itemize}
+    \item[--] (200 $\leq z \leq$ 1100): During this time period, the residual 
+     free electron fraction remaining post-recombination and the high gas 
+     density allows the thermal and spin temperatures of the gas to remain 
+     coupled with the photon background via Compton scatting and collisional 
+     excitations. All temperatures are the same, and therefore there will be no 
+     detectable 21 cm signal.
+    \item[--] (40 $\leq z \leq$ 200): As cosmological expansion continues, 
+     Compton scattering no longer couples the thermal temperature of the gas to 
+     the CMB photons, and the gas and radiation decouple and go out of 
+     equilibrium.  Collisional coupling sets the spin temperature $T_S < 
+     T_\gamma$, leading to an absorption feature in the 21 cm global signal.  
+    \item[--] (30 $\leq z \leq$ 40): Expansion continues and collisional 
+     interactions are no longer effective at coupling the thermal and spin 
+     temperatures of the gas. The excitation levels shift to being set by 
+     radiative coupling to the CMB, such that $T_S = T_\gamma$, and there is no 
+     detectable 21 cm signal.
+    \item[--] (15 $\leq z \leq$ 30): As the first sources (e.g. stars, active 
+     galactic nuclei (AGN), etc...) ignite, they begin emitting high energy 
+     Lyman-$\alpha$ and X-ray photons. The hyperfine populations couple to the 
+     thermal temperature of the cold gas via the Wouthuysen-Field effect, such 
+     that $T_S \sim T_K < T_\gamma$, resulting in an absorption feature in the 
+     21 cm global signal.
+    \item[--] (7 $\leq z \leq$ 15): The radiation (particularly the X-rays) 
+     from bright sources heat the gas, $T_K > T_\gamma$ and we see 21 cm 
+     emission in the global signal. Lyman-$\alpha$ coupling is still effective 
+     at setting the level populations.
+    \item[--] ($z \leq$ 7): Enough ionizing radiation has spread throughout the 
+     universe that the IGM has been converted from neutral to ionized, and 
+     reionization is complete.
+\end{itemize}
 
