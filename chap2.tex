@@ -1,4 +1,5 @@
 \chapter{Interferometry}
+\label{chap:interferometry}
 
 \section{Brief Overview}
 \label{sec:brief-overview}
@@ -99,16 +100,16 @@ the galaxy isn't related to the emission from the other side), the averaging
 and integrals can be interchanged, giving us
 
 \begin{equation}
-    R_C = \iint I_V(\mathbf s) \cos(2\pi\nu\mathbf{b}\cdot\mathbf{s}/c) d\Omega
+    R_C = \iint I(\mathbf s) \cos(2\pi\nu\mathbf{b}\cdot\mathbf{s}/c) d\Omega
     \label{eq:even-response}
 \end{equation}
 
 We can now see the relationship between what we are measuring to what we want 
-to observe - we have linked the source brightness $I_V(\mathbf{s})$ to the even 
-interferometer response $R_C$. To complete the image of the sky, we can observe 
-the odd interferometer response $R_S$, which is the sinusoidal equivalent of 
-$R_C$, by slipping in a $90^{\circ}$ phase offset along one of the signal 
-paths.   
+to observe - we have linked the source brightness $I_\nu(\mathbf{s})$ to the 
+even interferometer response $R_C$. To complete the image of the sky, we can 
+observe the odd interferometer response $R_S$, which is the sinusoidal 
+equivalent of $R_C$, by slipping in a $90^{\circ}$ phase offset along one of 
+the signal paths.   
 
 Now we can define a complex function $V = R_C - iR_S = A e^{-i \phi}$ as our 
 complex visibility from the two independent, real correlator outputs $R_C$ and 
@@ -117,7 +118,7 @@ $R_S$, where $A = \sqrt{R_C^2 + R_S^2}$ and $\phi = \tan^{-1}{(R_S/R_C)}$.
 We can now rewrite the complex visibility as an integral, giving us:
 
 \begin{equation}
-    V_{\nu}(\mathbf{b}) = R_C - iR_S = \iint I_V(\mathbf s) e^{-2\pi i 
+    V(\mathbf{b}) = R_C - iR_S = \iint I(\mathbf s) e^{-2\pi i 
     \nu\mathbf{b}\cdot\mathbf{s}/c} ~d\Omega
     \label{eq:vis}
 \end{equation}
@@ -125,52 +126,41 @@ We can now rewrite the complex visibility as an integral, giving us:
 This is easily recognized as the 2D Fourier transform, when the right geometry 
 is utilized. As it turns out, the earlier definitions of $u$ and $l$ are very 
 convenient coordinates to use, and can be expanded to two dimensions to give us 
-the $(u,v)$ visibility plane and the $(l,m)$ source plane. Eq.~\eqref{eq:vis} 
-can be rewritten with these coordinates like so:
+the $(u,v)$ visibility plane and the $(l,m)$ source plane\footnote{In 
+actuality, we don't use the $uv$-plane, but rather calculate from baselines 
+$\mathbf{b}$ and source direction $\mathbf{s}$ directly, so as to avoid any 
+complications or imprecision due to usage of the flat-sky approximation. See 
+Appendix~\ref{appendix} for more information on the $uv$-plane and when it is 
+an appropriate coordinate system to use.}.  
+
+Additionally, so far we have avoided mentioning any frequency dependence in 
+this relationship or any intrinsic instrumental effects. The fact of the matter 
+is that every astronomical array will have a frequency dependence, either from 
+the response of the instrument itself or from the changing physics of the 
+visible celestial sky (or, more likely, both). Therefore we must in fact 
+calculate visibilities for all the frequencies within our science band (i.e.  
+for each channel, meaning that there will be a level of imprecision and 
+integration of each visibility across a known $\delta \nu$ of frequency space 
+in the science band).
+
+Moreover, we must also account for the fact that no antenna has perfect 
+reception to the entire sky -- rather, each antenna has some spatial 
+sensitivity related to its own shape. This shape is often referred to as the 
+``beam" or the ``primary beam" of the antenna, and we shall denote it as 
+$A(l,m)$. 
+
+Eq.~\eqref{eq:vis} can now be rewritten with these coordinates like so:
 
 \begin{equation}
-    V(u,v) = \iint I(l,m) e^{-2\pi i (ul + vm)} ~dl ~dm
+    V_\nu(u,v) = \iint I'_\nu(l,m) e^{-2\pi i (ul + vm)} ~dl ~dm
     \label{eq:van-cittert}
 \end{equation}
 
-This is the van Cittert-Zernike theorem, a fundamental equation for 
-interferometry, which relates the brightness of the distant source to the 
-mutual coherence function (or visibility) via the 2D Fourier transform in a 
-convenient set of coordinates for radio astronomy.
-
-\subsection{The Flat Sky Approximation and Its Limitations}
-
-In the above equation, we made one implicit assumption -- that we are working 
-in only two dimensions. This, of course, is not true. 
-
-In reality, the van Cittert-Zernicke theorem should be written in terms of 
-\emph{(u,v,w)} coordinates, rather than just \emph{(u,v)}. The full (idealized) 
-measurement equation can thus be written as:
-
-\begin{equation}
-    V(u,v,w) = \iint I(l,m) e^{-2\pi i (ul + vm + w\sqrt{1 - l^2 - m^2})} dl dm
-    \label{eq:full-measurement}
-\end{equation}
-
-The next step is to assume that $l$ and $m$ are small, such that $\sqrt{1 - l^2 
-- m^2} \approx 1$, allowing the $e^{-2\pi i w}$ term to be removed from the 
-integral by applying the proper phasing to the measured visibility and the 
-measurement equation to be simplified to a 2D Fourier transform sampled in the 
-\emph{uv}-plane. This procedure is called the \emph{flat-sky approximation}.
-
-This approximation works well for many applications in astronomy, particularly 
-in the observation of point sources or small extended sources in the sky (up to 
-about $\pm10^\circ$ or so, where $l \equiv \sin\theta \approx \theta$).  
-However, as the observed area in the sky gets larger, it becomes impossible to 
-apply an absolutely correct phasor to the 2D integral, and the $w$-term instead 
-introduces a spatially varying departure from the 2D Fourier transform the 
-further from the phase center you are.
-
-So, obviously, in the case where you're trying to use an interferometer to 
-observe a global phenomenon (such as the reionization global signal), the flat 
-sky approximation simply won't do. If we want to continue to use the 2D Fourier 
-transform (spoiler alert: we do), the we must find a way to correct for this 
-spatial variance.
+\noindent where $I'_\nu(l,m) = I_\nu(l,m) A_\nu(l,m)$. This is the van 
+Cittert-Zernike theorem, a fundamental equation for interferometry, which 
+relates the brightness of the distant source to the mutual coherence function 
+(or visibility) via the 2D Fourier transform in a convenient set of coordinates 
+for radio astronomy.
 
 \section{Spatial Modes and Interferometric Sensitivities}
 
@@ -244,42 +234,91 @@ some context for the second member of our spatial Fourier pair. We can thus
 start visualizing the physical meaning of ``spatial variance" and ``spatial 
 frequencies".
 
+We can do so by rewriting our interferometric visibility in terms of spherical 
+harmonics. Let's begin by rewriting our visibility equation into the form seen 
+in Eq.~\eqref{eq:vis}, now factoring in the primary beam and integrating over 
+the full celestial sphere.
+
+\begin{equation}
+    V(\nu) = \int I(\mathbf s) A(\mathbf{s}) e^{-2\pi i 
+    \nu\mathbf{b}\cdot\mathbf{s}/c} ~d\mathbf{s}
+    \label{eq:vis-allsky}
+\end{equation}
+
+\noindent where $I(\mathbf{s})$ is the sky brightness, $A(\mathbf{s})$ is the 
+primary beam of the antenna, and the exponential term is the interferometric 
+``fringe".  Now, much in the way that any signal can be decomposed into an 
+infinite series of Fourier frequencies and amplitudes, we can rewrite the terms 
+of Eq.~\eqref{eq:vis-allsky} to be expressed as a sum of spherical harmonics.
+
+\begin{equation}
+    I(\mathbf s) = \sum_{l,m} I_{lm} Y_l^m(\mathbf{s})
+    \label{eq:sky-spherical-harmonics}
+\end{equation}
+
+\noindent and therefore the visibility equation becomes:
+
+\begin{equation}
+    V(\nu) = \int \Big( \sum_{l,m} I_{lm} Y_l^m(\mathbf{s}) \Big) A(\mathbf{s}) 
+    e^{-2\pi i \nu\mathbf{b}\cdot\mathbf{s}/c} ~d\mathbf{s}
+    \label{eq:vis-allsky-lm}
+\end{equation}
+
+So now the question is simply: does the integral of the zeroth mode (i.e. the 
+global signal) vanish or not. This term can be written as:
+
+\begin{equation}
+    V_0(\nu) \equiv I_{00}(\nu) \int Y_0^0(\mathbf{s}) A(\mathbf{s}) e^{-2\pi i 
+    \nu\mathbf{b}\cdot\mathbf{s}/c} ~d\mathbf{s}
+    \label{eq:vis-allsky-00}
+\end{equation}
+
+We know that $Y_0^0 = \sqrt{1/4\pi}$, so the remaining question of interest 
+basically boils down to whether or not the beam can break the inherent symmetry 
+of the fringe term, leaving us with a non-zero $V_0(\nu)$.
+
 \begin{figure}
     \begin{center}
     \includegraphics[width=\linewidth]{spherical-harmonics.png}
     \end{center}
     \caption{
          MAKE A FIGURE SHOWING SPHERICAL HARMONICS LMAO
+         0, 1, 2 (3 x 3 grid), use (l,m) notation
     }
     \label{fig:spherical-harmonics}
 \end{figure}
 
 \section{Observing the Spatial Monopole with an Interferometer}
+\label{sec:observing-monopole}
 
-At this point, you may be wondering how exactly we intend to use an 
-interferometer to observe a spatially invariant signal. Everything we have 
+At this point, it is a fair enough question to ask how exactly we intend to use 
+an interferometer to observe a spatially invariant signal. Everything we have 
 stated above indicates that interferometers see \emph{changing} signals -- they 
 observe the spatial variance that they are sensitive to based upon the 
 separation of the antennas and the frequency they are observing at. They are 
 inherently AC circuits. The one thing they are explicitly not meant to do is to 
 observe what is effectively a DC tone.
 
-So what the \emph{hell} are we doing?
+So how exactly is this supposed to work?
 
 Well, it turns out there's a couple of things in our favor here. The first 
 thing, as addressed in~\citet{presley2015}, is that we're on earth and can't 
 actually see a monopole from the sky -- the horizon gets in the way.  
 Furthermore, the antenna itself has a directionally dependent beam, introducing 
 an additional layer of spatial variance. Therefore, what in reality is a 
-monopole signal from the entire universe is instead observed as a \emph{dipole} 
-signal.  And a dipole signal, with it's slowly varying signal across the sky,  
-doesn't necessarily integrate to zero and therefore may be observable with an 
-interferometer.
+monopole signal from the entire universe is instead observed with a spatial 
+cut-off -- it's a top-hat.  Or, more accurately (with the addition of the 
+primary beam $A$), it's a bowler hat. And, most importantly for our goals, a 
+top-hat signal doesn't necessarily integrate to zero and therefore may be 
+observable with an interferometer~\citep{venumadhav2016}.
 
-That being said, a dipole signal still isn't easily observable with an 
-interferometer -- it's only one cycle of variation across the sky, and with 
-factors like beam shape, it can be hard to tell what's sky variation vs.~other 
-factors.
+That being said, a top-hat signal that spatially broad still isn't easily 
+observable with an interferometer. From our knowledge of Fourier transformed, 
+we know that a broad spatial cut-off translates into a narrow spread of powers 
+in the visibility domain -- i.e. most of the monopole power will remain in very 
+broad, long and low spatial modes. If we want to truly convert the monopole 
+into a signal that we can get at with an interferometer, we're going to have to 
+constrict the scale of our spatial top hat.
 
 What we need to do is artificially push our monopole term into higher modes -- 
 modes that we are in control of. Or, in Fourier terminology, we need to apply a 
@@ -318,11 +357,11 @@ source of noise from lossy components (e.g. the ground or other signal
 absorbers, rather than reflectors or transmitters) in order to maintain a 
 sensitivity to the global signal. As described in 
 Section~\ref{sec:brief-overview}, the more closely spaced your elements, the 
-larger the spatial scales your instrument will be sensitive to. We therefore 
-know that we are going to be using a very closely packed array, which will make 
-our system very prone to cross-talk. If we want to avoid that, then we'll have 
-to find some way to ensure that the antennas don't see each other in addition 
-to seeing less of the sky.
+larger the spatial scales on the sky your instrument will be sensitive to. We 
+therefore know that we are going to be using a very closely packed array, which 
+will make our system very prone to cross-talk. If we want to avoid that, then 
+we'll have to find some way to ensure that the antennas don't see each other in 
+addition to seeing less of the sky.
 
 All of which leads us to the construction of thin absorptive walls between the 
 antennas -- introducing a new horizon in how the antenna sees the sky and 

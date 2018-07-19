@@ -1,46 +1,13 @@
 \chapter{Overview of the Theory of HYPERION}
 
-\section{Simulation}
+\subsection{Overview of the Instrumental Design}
 
-The basis of our simulation lies in the calculation of a visibility using 
-Eq.~\eqref{eq:vis}.
-
-\begin{equation}
-    \label{eq:vis}
-    V(u,v) = \int A(\hat{s}) \cdot T_{sky}(\hat{s}) ~e^{-2 \pi i \frac{\vec{b} 
-    \cdot \hat{s}}{\lambda}} d\Omega
-\end{equation}
-
-From this equation, we have three parameter spaces to play in: the beam of the 
-antenna $A(\hat{s})$, the brightness and spatial behavior of the sky 
-$T_{sky}(\hat{s})$, and the baseline vector $\vec{b}$. For ease of 
-organization, we'll now split our discussion into two parts, sky 
-characteristics vs. system characteristics.
-
-\subsection{Sky Characteristics \& Parameters}
-
-At present, our goal is to better understand how an interferometer receives 
-signal from a monopole sky, so we're only considering skies without any
-spatial variation. However, while we are only inputting spatially flat maps 
-into the simulation, spectral variation across our science band is an open 
-variable that we consider.  The simulation has functions for both 
-spectrally-flat (for calibration and verification purposes) and 
-synchrotron-characteristic sky maps, using Eq.~\eqref{eq:synch-temp} as our 
-basis for calculating brightness temperature as a function of frequency.  
-
-\begin{equation}
-    \label{eq:synch-temp}
-    T(\nu) = T(\nu_{150}) \Big(\frac{\nu}{\nu_{150}} \Big)^{-\beta}
-\end{equation}
-
-\subsection{System Characteristics \& Parameters}
-
-This leads us to the characteristics of our interferometer itself. Within this 
-framework, there are two key areas of interest to us: how our sensitivity to 
-the monopole varies with the separation between antennas, and how it changes in 
-the presence of different absorber structures and materials. Another way of 
-viewing it would be: how do the characteristics of the individual elements and 
-of the array design affect our ability to make this measurement.
+Let us now consider the design of our interferometer itself. There are two key 
+areas of interest to us: how our sensitivity to the monopole varies with the 
+separation between antennas, and how it changes in the presence of different 
+absorber structures and materials. Another way of viewing it would be: how do 
+the characteristics of the individual elements and of the array design affect 
+our ability to make this measurement.
 
 Let us first consider the array design, i.e. baseline separations. For this 
 simulation, we import a model array using the AIPy AntennaArray framework, 
