@@ -1,0 +1,38 @@
+\documentclass[tikz,border=5]{standalone}
+#\newif\ifshpoverwrite
+\tikzset{%
+  spherical harmonics/.cd,
+    overwrite/.is if=shpoverwrite,
+    file/.store in=\shpfilename,
+    m/.store in=\shpm,
+    n/.store in=\shpn,
+    longitude/.store in=\shplongitude,
+    latitude/.store in=\shplatitude,
+    cmap/.store in=\shpcmap,
+    points/.store in=\shppoints,
+    inches/.store in=\shpinches,
+    longitude=0, latitude=0,
+    cmap=RdYlBu,  points=100, inches={(1,1)}
+}
+\def\sphericalharmonicplot#1{%
+  \tikzset{spherical harmonics/.cd,#1}%
+  \edef\pythoncommand{python -c "import shpl;
+    shpl.plot('\shpfilename', \shpm, \shpn,
+              latitude=\shplatitude, longitude=\shplongitude,
+              cmap='\shpcmap', points=\shppoints, inches=\shpinches)"}%
+  \ifshpoverwrite
+    \immediate\write18{\pythoncommand}%
+  \else
+    \IfFileExists{\shpfilename}{}{\immediate\write18{\pythoncommand}}%
+  \fi%
+  \includegraphics{\shpfilename}%
+}
+\begin{document} 
+\begin{tikzpicture}[x=1in,y=1in]
+\foreach \m/\n [count=\i from 0] in {0/0, 0/1, 0/2, 1/1, 1/2, 1/3, 2/2, 2/3, 
+ 3/3}
+\node [label=270:{$l=\m,\,m=\n$}] at ({floor(\i/3)*1.5}, {-mod(\i,3)*1.5})
+  {\sphericalharmonicplot{file=sph\i.png, m=\m, n=\n,
+    longitude=-100, latitude=30}};
+\end{tikzpicture}
+\end{document}

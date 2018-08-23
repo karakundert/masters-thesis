@@ -1,31 +1,13 @@
-\chapter{Overview of the Theory of HYPERION}
+\chapter{Overview of the Logistics of HYPERION}
 
-\subsection{Overview of the Instrumental Design}
+\section{Methodology of Simulation}
 
-Let us now consider the design of our interferometer itself. There are two key 
-areas of interest to us: how our sensitivity to the monopole varies with the 
-separation between antennas, and how it changes in the presence of different 
-absorber structures and materials. Another way of viewing it would be: how do 
-the characteristics of the individual elements and of the array design affect 
-our ability to make this measurement.
-
-Let us first consider the array design, i.e. baseline separations. For this 
-simulation, we import a model array using the AIPy AntennaArray framework, 
-which enables us to carry around an array with known geometry and baseline 
-separations, along with individual antenna beam patterns and accessible 
-frequencies. With this information and the previously made sky maps, we are now 
-able to calculate our visibilities across many frequencies by using 
+For this simulation, we import a model array using the AIPy AntennaArray 
+framework, which enables us to carry around an array with known geometry and 
+baseline separations, along with individual antenna beam patterns and 
+accessible frequencies. With this information and the previously made sky maps, 
+we are now able to calculate our visibilities across many frequencies by using 
 Eq.~\eqref{eq:vis}.
-
-Intuitively, we expect that the sensitivity to the global signal will be 
-maximized with the smallest baseline separations, which correspond to a 
-position in the \emph{uv}-plane close to the origin, or the zero-spacing mode.  
-The trade-off of this, from a design perspective, comes in the difficulty of 
-ameliorating cross-talk in a densely packed array. We want to optimize our 
-array design to space our antennas as loosely as possible while also 
-maintaining workable sensitivity to the monopole term, as this will best enable 
-us to mitigate systemic problems in our instrument and perform a successful 
-experiment.
 
 The AntennaArray framework also enables us to carry around models of the beams 
 of the antennas, which is a convenient way to import absorbers into the 
@@ -45,49 +27,116 @@ Eq.~\eqref{eq:dipole-beam}.
     \cos{\theta}}{\sin{\theta}}\Big)
 \end{equation}
 
-The next step is to add the absorber, which we do via modification of the AIPy 
-Antenna beam. The absorber structure in our simulation is essentially a 
-cylindrical wall of uniform height centered around each antenna, so that the 
-antenna sees a rotationally symmetric structure. The parameters we can play 
-with are the absorptivity of the material (i.e. how much attenuation does the 
-absorber provide at each frequency), the height of the absorber walls, and how 
-smooth the transition from absorber to sky is. This calculation is done using 
-Eq.~\eqref{eq:absorber-baffle},
+The parameters we can play with are the absorptivity of the material (i.e. how 
+much attenuation does the absorber provide at each frequency), the height of 
+the absorber walls, and how smooth the transition from absorber to sky is.  
 
-\begin{equation}
-    \label{eq:absorber-baffle}
-    B(\theta, \phi, \nu) = \Big[10^{\alpha(\nu)/20} \Big(\frac{1}{2} + 
-    \frac{1}{2} \tanh\Big(\frac{\theta - (\frac{1}{2} - 
-    \theta_{0})}{a}\Big)\Big) + \Big(1 - \Big(\frac{1}{2} + \frac{1}{2} 
-    \tanh\Big(\frac{\theta - (\frac{1}{2} - \theta_{0})}{a}\Big)\Big)\Big)\Big]
-\end{equation}
+\section{Absorber Baffles -- Initial Results}
 
-where $\alpha(\nu)$ is the absorptivity by frequency of the absorber, 
-$\theta_0$ is the cutoff angle of the structure (i.e. $\theta_0$ is the height 
-of the absorber walls), and $a$ is the smoothing parameter that blends the 
-transition between the absorber and the sky.
+TALK ABOUT SYSTEM TEMPERATURE, NO NEED TO COOL BAFFLES (memo 1)
 
-This term is then combined with the Antenna beam, giving us 
-Eq.~\eqref{eq:absorber-beam}.
+To date, we are still relatively early in the testing of our hypothesis that 
+absorber walls or ``baffles" between antennas will enable us to better observe 
+the spatial monopole with an interferometer. There have been two main sets of 
+tests performed so far -- one in-lab test to measure the absorptivity of 
+various proposed materials, and some brief field tests to gauge the 
+effectiveness of our absorber at mitigating cross-talk between antennas.
 
-\begin{equation}
-    \label{eq:absorber-beam}
-    A'(\theta, \phi, \nu) = A(\theta, \phi, \nu) B(\theta, \phi, \nu)
-\end{equation}
+The in-lab test was, in essence, a simple antenna return-loss measurement. To 
+conduct the measurements, we started by constructing a large (i.e. 4.5' cube) 
+Faraday cage out of wood and chicken wire, and placed an antenna at its center.  
+From this setup, we could perform a simple return loss measurement and see what 
+the maximum power return to the antenna is.
 
-\subsection{Calculating Visibilities by Baseline Separation}
+We could then line the cage with various absorptive materials and take another 
+return-loss measurement, this time with (ideally) much of the power absorbed by 
+the absorber, and see how effective each material is at dissipating energy 
+within our science band. One such measurement is shown in 
+Fig.~\ref{fig:fe-absorption}, featuring our most promising absorber candidate 
+material, ferrite tiles.
 
-One of the fundamental constructs of the theory of astronomical interferometry 
-is that samples spatial variance on the sky. Interferometers, by nature, are 
-not designed to observe global light sources. Rather, interferometers excel at 
-observing differences -- a star or other point source will have light in one 
-place and no light everywhere else, galaxies will have clumpy, fluffy light in 
-some places but not all places. The interferometer can be built and designed to 
-observe some scales better than others, and can tease out these differential 
-light sources with great success.
+\begin{figure}
+    \begin{center}
+    \includegraphics[width=\linewidth]{fe_absorption.png}
+    \end{center}
+    \caption{
+        Here we see the results of a closed-box return loss measurement taken 
+        with a densely packed (i.e. $9\times9$ tiles per wall) configuration of 
+        ferrite tiles, evenly spaced along the walls of the testing Faraday 
+        cage. The ripples are an artifact from the testing setup, and not 
+        inherent to the performance of the ferrite itself. As can be easily 
+        seen, the Ferrite performs much better at the high range of our science 
+        band, and is optimized around $\sim120$ MHz.  While this material has 
+        the best performance out of all the materials we have looked into so 
+        far, we would ideally prefer a material with a more even absorptivity 
+        across the band, so as best to avoid inadvertently adding ripples or 
+        structure to our sky observations.
+    }
+    \label{fig:fe-absorption}
+\end{figure}
 
-So one might reasonably be surprised to hear that we are taking an 
-interferometer and trying to do the one exact thing that it is, theoretically, 
-unequipped to handle: trying to observe a global average phenomenon on the sky.
+As can be easily seen in the figure, the ferrite tiles have a decent 
+absorptivity profile across the band, and an excellent absorptivity around 120 
+MHz. However, as described in Section~\ref{sec:global-signal-overview}, the 
+global signal of reionization is rich with physical information that is 
+uniquely tied to its changing amplitude by frequency. The kinds of variations 
+that we see in the absorptivity across the band are dangerous for the 
+well-being of our experiment, as they could translate to tricky or uncertain 
+calibration of our final instrument. We want to ensure that almost everything 
+beyond the global signal has simple and well-defined relations to frequency 
+(e.g. the synchrotron galactic sky, which is well described by a power law), in 
+order to best understand our signal and be sure that instrumental 
+idiosyncracies aren't being mistaken for true signal and science. As such, we 
+would strongly prefer an absorber (or combination of absorbers) that has a more 
+uniform performance across the science band.
 
+Additionally, the ferrite tiles are among the most expensive of the materials 
+we investigated. Even with a very close spacing and therefore relatively small 
+baffle structures, the costs of acquiring enough ferrite to create an array 
+quickly becomes overwhelming to the budget.
+%\footnote{Of course, there's no longer any need to worry about that because 
+%there is no budget -- this project dies alongside my academic ideals.}.
 
+Other candidate absorbers include mats of Zotefoam Plastazote\textregistered, 
+the AEP-EM low-frequency pyramidal foam absorber from DJM Electronics, and the 
+creation of a grid of resistors designed to match with the free-space 
+impedance~\citep{mahesh2015}. The Zotefoam was appealing due to its low cost 
+compared to the pyramidal foam and ferrite tiles, but unfortunately its 
+performance seemed to scale in proportion to its price tag.  The pyramidal foam 
+performed slightly better, but seemed to feature more reflections than the 
+ferrite and overall had a lower absorptivity performance than the ferrite, 
+despite a nearly identical price tag per square foot of coverage. The resistive 
+mesh is still an attractive idea, as it would only cost us an ungodly amount of 
+effort to put together and about \$10 worth of resistors. Unfortunately, at the 
+time of writing, only a very introductory level of investigation has been put 
+into the resistive mesh idea, so nothing conclusive can be said about its 
+performance as an absorber material.
+
+At this point in time, there really haven't been any meaningful field tests 
+upon which I could report. However, the most important things for us to 
+investigate in the field would be a) ability of the absorber to mitigate the 
+cross-talk between antennas and b) the efficacy of the baffles' ability to 
+impose a spatial temperature variation from the antenna's point-of-view and how 
+that efficacy evolves over frequency.
+
+In Fig.~\ref{fig:field-test}, we see one possible arrangement of the absorber 
+materials in order to assess the ability of the absorber at mitigating 
+cross-talk between antennas. In order to perform this test adequately, one 
+would need to take two measurements in the same radio environment -- one 
+without the absorber between the antennas, in order to gauge the baseline level 
+of cross-talk, and one with the absorber between, to measure the improvement in 
+power leakage.
+
+\begin{figure}
+    \begin{center}
+    \includegraphics[width=\linewidth]{field-test.png}
+    \end{center}
+    \caption{
+        Shown here is a simple diagnostic field set-up that could be used to 
+        evaluate an absorber's ability to mitigate cross-talk between elements.  
+        Here we used a densely-packed configuration of ferrite tiles that have 
+        been propped up on some of our pyramidal foam absorber for additional 
+        height.
+    }
+    \label{fig:field-test}
+\end{figure}
