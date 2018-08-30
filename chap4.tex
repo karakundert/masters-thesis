@@ -1,8 +1,25 @@
 \chapter{Overview of the Logistics of HYPERION}
 
+We must now find a way to test our hypotheses about building a 
+monopole-sensitive interferometer. Ideally we would do this in multiple steps, 
+graduating from tests that use the fewest resources up to the most expensive 
+tests, and would conclude with a full deployment of the array with which to 
+observationally test our ideas and attempt to make a measurement of the 
+monopole reionization signal. 
+
+This leads us to a natural starting point: to build a simulation of our array.  
+This can be done cheaply and relatively quickly, and can give us a sense of 
+whether or not this idea has any potential merit.
+
 \section{Methodology of Simulation}
 
-For this simulation, we import a model array using the AIPy AntennaArray 
+Fundamentally, we will be doing all the same steps that have been laid out in 
+the previous three chapters. We will create a model sky and a model array, and 
+then calculate the visibilities for each baseline separation of that array. We 
+will then examine these visibilities to see if we have any sensitivity to the 
+monopole term at all, and if so what form they take.
+
+For our simulation, we import a model array using the AIPy AntennaArray 
 framework, which enables us to carry around an array with known geometry and 
 baseline separations, along with individual antenna beam patterns and 
 accessible frequencies. With this information and the previously made sky maps, 
@@ -14,6 +31,8 @@ of the antennas, which is a convenient way to import absorbers into the
 simulation. Essentially, within the context of the simulation, the absorbers 
 act as a modification term on the beam pattern, changing the way that each 
 individual antenna sees the sky. This works as follows:
+
+\subsection{Absorber Baffles}
 
 To start, we need a beam. HYPERION uses SARAS-style fat dipole antennas in our 
 instrument, which means we will be using a frequency-invariant dipole beam 
@@ -27,17 +46,18 @@ Eq.~\eqref{eq:dipole-beam}.
     \cos{\theta}}{\sin{\theta}}\Big)
 \end{equation}
 
-The parameters we can play with are the absorptivity of the material (i.e. how 
+The effective antenna beam can then be calculated using 
+equations~\eqref{eq:absorber-baffle} and~\eqref{eq:absorber-beam}.
+
+In the construction of the absorber baffles within the simulation, the 
+parameters we can play with are the absorptivity of the material (i.e.  how 
 much attenuation does the absorber provide at each frequency), the height of 
 the absorber walls, and how smooth the transition from absorber to sky is.  
 
-\section{Absorber Baffles -- Initial Results}
-
-TALK ABOUT SYSTEM TEMPERATURE, NO NEED TO COOL BAFFLES (memo 1)
-
-To date, we are still relatively early in the testing of our hypothesis that 
+So the first question is: how absorptive is our absorber at each frequency? To 
+date, we are still relatively early in the testing of our hypothesis that 
 absorber walls or ``baffles" between antennas will enable us to better observe 
-the spatial monopole with an interferometer. There have been two main sets of 
+the spatial monopole with an interferometer.  There have been two main sets of 
 tests performed so far -- one in-lab test to measure the absorptivity of 
 various proposed materials, and some brief field tests to gauge the 
 effectiveness of our absorber at mitigating cross-talk between antennas.
@@ -140,3 +160,85 @@ power leakage.
     }
     \label{fig:field-test}
 \end{figure}
+
+Presently, we don't have any field results for how effective the absorptive 
+walls are at mitigating cross-talk between antennas. The current iteration of 
+the simulation assumes zero cross-talk between antennas, i.e. all sensitivity 
+to the monopole comes from the presence of the dissipative absorber 
+walls~\citep{venumadhav2016}.
+
+We also haven't tested how the absorber behaves at the edges. Most importantly, 
+we don't have a good grasp on how big of a problem diffraction over the top of 
+the baffle walls is, and we don't have a model of the smoothing parameter $a$ 
+from Eq.~\eqref{eq:absorber-baffle} or how it evolves with different baffle 
+shapes. For the simulation, we have assumed that there is no diffraction and 
+that the roll-off in absorber effectiveness is fairly sharp with $a = 0.01$.
+
+\subsection{Array Parameters}
+
+Next, we must construct our model array. Basically, this means we must decide 
+on the placement of our antenna-absorber elements. Our intuition tells us that 
+the closer the elements are spaced to each other, the more sensitivity we will 
+have to the monopole. But, of course, we don't yet know what the final baffle 
+design for the elements is, and therefore we don't know how much space we will 
+have to leave between elements.
+
+At this level of the simulation, we are simply trying to determine what level 
+of sensitivity we can expect across our full science frequency band at many 
+different separations. We have chosen to test six possible separations: 1.5 m, 
+3 m, 4.5 m, 6 m, 9 m, and 12 m. This corresponds to $\lambda/2$, $\lambda$, 
+  $3\lambda/2$, $2\lambda$, $3\lambda$, and $4\lambda$ for a frequency of $\nu 
+  = 100$ MHz, approximately the center of our science band.
+
+\subsection{Modeling the Sky}
+
+Finally, we need something to actually observe. We can construct a model of the 
+sky using the AIPy Healpix tools, generating maps of the sky at multiple 
+frequencies and storing them in bundles. These maps are contained and can be 
+indexed by coordinates, making them easy to use for simulating observations and 
+interferometric visibilities.
+
+There are three things we hope to learn from our simulation, each one building 
+upon the others.
+\begin{enumerate}
+ \item Can we observe a monopole sky using an interferometer?
+ \item Can we see the reionization monopole in our interferometric observations 
+  even with very bright foregrounds?
+ \item Can we tease apart the monopole signal from the higher order, very 
+  bright foreground terms?
+\end{enumerate}
+
+So fundamentally, we must be able to generate model skies for at least three 
+cases: a monopole sky that models the frequency dependence and amplitude of the 
+predicted reionization global signal, a monopole sky with a synchrotron 
+frequency dependence, and a full global sky model for each frequency in our 
+science band.
+
+First off, we want to be able to model the monopole reionization signal. To do 
+this, we will first generate a Healpix map filled with a flat brightness of 1 K 
+for each frequency we want to simulate. We will then use the Accelerated 
+Reionization Era Simulations (ARES) code developed by Jordan Mirocha to 
+calculate the brightness temperature of the 21cm global signal at each 
+frequency bin~\citep{mirocha2014}. Finally, we will scale the brightness of 
+each map by the temperature calculated for its frequency, giving us a flat sky 
+with an evolving brightness by frequency.
+
+The same process can be used to generate a monopole synchrotron sky. In this 
+case, the temperature at each frequency bin can be calculated via simple power 
+law:
+
+\begin{equation}
+    \label{eq:synch-temp}
+    T(\nu) = T(\nu_{150}) \Big(\frac{\nu}{\nu_{150}} \Big)^{-\beta}
+\end{equation}
+
+For our synchrotron sky, we have used the numbers presented 
+in~\cite{rogers2008}, which lists a synchrotron sky brightness temperature of 
+$T = 237$ K at $\nu = 150$ MHz and a scaling factor of $\beta = 2.5$. These 
+numbers give us a galactic synchrotron brightness temperature of $T_{synch} = 
+3700$ K at $\nu = 50 MHz$, which is the lowest frequency in our science band 
+and therefore the brightest synchrotron bin. 
+
+Finally, we want to be able to generate realistic sky maps with structure. We 
+can do this using global sky models at multiple frequencies, such as those 
+first presented in~\cite{haslam1982}.

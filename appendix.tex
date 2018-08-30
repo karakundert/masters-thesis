@@ -1,0 +1,40 @@
+\chapter{The Flat-Sky Approximation and Its Limitations}
+\label{appendix}
+
+In Eq.~\eqref{eq:van-cittert}, we made one implicit assumption -- that we are 
+working in only two dimensions. This, of course, is not true. 
+
+In reality, if one is hoping to utilize the nice Fourier nature of the 
+brightness and visibility planes, the van Cittert-Zernicke theorem should be 
+written in terms of \emph{(u,v,w)} coordinates, rather than just \emph{(u,v)}.  
+The full (idealized) measurement equation can thus be written as:
+
+\begin{equation}
+    V(u,v,w) = \iint I(l,m) e^{-2\pi i (ul + vm + w\sqrt{1 - l^2 - m^2})} dl dm
+    \label{eq:full-measurement}
+\end{equation}
+
+The next step is to assume that $l$ and $m$ are small, such that $\sqrt{1 - l^2 
+- m^2} \approx 1$, allowing the $e^{-2\pi i w}$ term to be removed from the 
+integral by applying the proper phasing to the measured visibility and the 
+measurement equation to be simplified to a 2D Fourier transform sampled in the 
+\emph{uv}-plane. This procedure is called the \emph{flat-sky approximation}.
+
+This approximation works well for many applications in astronomy, particularly 
+in the observation of point sources or small extended sources in the sky (up to 
+about $\pm10^\circ$ or so, where $l \equiv \sin\theta \approx \theta$).  
+However, as the observed area in the sky gets larger, it becomes impossible to 
+apply an absolutely correct phasor to the 2D integral, and the $w$-term instead 
+introduces a spatially varying departure from the 2D Fourier transform the 
+further from the phase center you are.
+
+So, obviously, in the case where you're trying to use an interferometer to 
+observe a global phenomenon (such as the reionization global signal), the flat 
+sky approximation simply won't do. In the case that one is attempting to 
+perform sky imaging, then care must be taken to navigate the pitfalls of the 
+flat-sky approximation, including the use of clunky or expensive algorithms 
+such as W-projection. In our case, we are not trying to image the sky at all, 
+rather we're just attempting to understand the distribution of power in the 
+visibility domain. We can therefore avoid the $(u,v)$ to $(l,m)$ confusion 
+entirely and calculate our visibilities directly based on our knowledge of the 
+source direction $\mathbf{s}$ and the baseline separation $\mathbf{b}$.
