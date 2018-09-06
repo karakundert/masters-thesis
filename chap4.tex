@@ -1,4 +1,5 @@
 \chapter{Overview of the Logistics of HYPERION}
+\label{chap:logistics}
 
 We must now find a way to test our hypotheses about building a 
 monopole-sensitive interferometer. Ideally we would do this in multiple steps, 
@@ -19,6 +20,8 @@ then calculate the visibilities for each baseline separation of that array. We
 will then examine these visibilities to see if we have any sensitivity to the 
 monopole term at all, and if so what form they take.
 
+DON'T TALK ABOUT AIPY, NO ONE USES IT
+
 For our simulation, we import a model array using the AIPy AntennaArray 
 framework, which enables us to carry around an array with known geometry and 
 baseline separations, along with individual antenna beam patterns and 
@@ -31,6 +34,8 @@ of the antennas, which is a convenient way to import absorbers into the
 simulation. Essentially, within the context of the simulation, the absorbers 
 act as a modification term on the beam pattern, changing the way that each 
 individual antenna sees the sky. This works as follows:
+
+BREAK BEAM INTO ITS OWN PRE-SECTION, SHORT (MAYBE 2 PARAGRAPHS?)
 
 \subsection{Absorber Baffles}
 
@@ -110,6 +115,9 @@ idiosyncracies aren't being mistaken for true signal and science. As such, we
 would strongly prefer an absorber (or combination of absorbers) that has a more 
 uniform performance across the science band.
 
+MENTION THAT FERRITE MAY HAVE DIRECTIONAL ABSORPTIVITY, WE JUST AVERAGED OVER 
+FULL BOX
+
 Additionally, the ferrite tiles are among the most expensive of the materials 
 we investigated. Even with a very close spacing and therefore relatively small 
 baffle structures, the costs of acquiring enough ferrite to create an array 
@@ -131,6 +139,9 @@ effort to put together and about \$10 worth of resistors. Unfortunately, at the
 time of writing, only a very introductory level of investigation has been put 
 into the resistive mesh idea, so nothing conclusive can be said about its 
 performance as an absorber material.
+
+MENTION THAT WE HAVE IGNORED MUTUAL COUPLING BETWEEN ABSORBER AND ANTENNA, FULL 
+EM MODELING WOUlD BE LOGICAL NEXT STEP
 
 At this point in time, there really haven't been any meaningful field tests 
 upon which I could report. However, the most important things for us to 
@@ -174,6 +185,10 @@ from Eq.~\eqref{eq:absorber-baffle} or how it evolves with different baffle
 shapes. For the simulation, we have assumed that there is no diffraction and 
 that the roll-off in absorber effectiveness is fairly sharp with $a = 0.01$.
 
+ROLL-OFF IS FIRST ORDER APPROXIMATION OF DIFFRACTION, WE DON'T KNOW HOW EXACTLY 
+TO PARAMETERIZE $a$, DISCUSS HOW DIFFERENT $a$ VALUES IMPACT GLOBAL SIGNAL 
+RECOVERY
+
 \subsection{Array Parameters}
 
 Next, we must construct our model array. Basically, this means we must decide 
@@ -191,6 +206,8 @@ different separations. We have chosen to test six possible separations: 1.5 m,
   = 100$ MHz, approximately the center of our science band.
 
 \subsection{Modeling the Sky}
+
+CITE HEALPIX, GORSKI
 
 Finally, we need something to actually observe. We can construct a model of the 
 sky using the AIPy Healpix tools, generating maps of the sky at multiple 

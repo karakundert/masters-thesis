@@ -1,16 +1,29 @@
 \chapter{Sensitivity to the Monopole Sky}
 
-\section{Simulated}
+\section{Simulated Visibilities}
 
-lay out the case that absorber helps us maximize interferometric sensitivity to 
-monopole, lay out the case that we can use the characteristics of this 
-sensitivity to potentially help us pick out monopole vs. higher order terms 
-(some kind of filtering around sensitivity vs. u mode)
+Now all that remains is actually answering the question of whether or not this 
+could work.  Can a traditional interferometer actually pick up a global sky 
+signal?  And can we manipulate that sensitivity using the strategic placement 
+of absorptive materials around our antennas?
 
-As can be easily seen in Figures~\ref{fig:flat-sky-no-abs-freq} 
-and~\ref{fig:flat-sky-no-abs-uv}, all interferometers have a non-zero 
-sensitivity to the monopole mode of the sky. As the number of wavelengths of 
-separations increases, that sensitivity also quickly evaporates.
+Let's start by investigating the first question. Is an interferometer sensitive 
+to the monopole sky? As described in Chapter~\ref{chap:logistics}, this can be 
+be simulated, we just have to set our parameters appropriately.
+
+We can begin with a very simplified proof-of-concept case. We will construct an 
+array with no absorbers and a flat terrestrial horizon. Additionally, we will 
+have beams with perfect receptivity in all directions, and a sky temperature of 
+exactly $T_{sky} = 1.0$ K across our entire observational band. This will be 
+our most basic unit test -- something with which to check our intuition against 
+and prove that the idea behind HYPERION is sound.
+
+As expected and  as can be easily seen in 
+Figures~\ref{fig:flat-sky-no-abs-freq} and~\ref{fig:flat-sky-no-abs-uv}, all 
+ground-based interferometers have a non-zero sensitivity to the monopole mode 
+of the sky. Simlarly, we also find that the further we stray from the 
+zero-spacing mode (i.e. as the number of wavelengths of separations increases), 
+sensitivity to the monopole also quickly evaporates.
 
 \begin{figure}
     \begin{center}
@@ -18,11 +31,12 @@ separations increases, that sensitivity also quickly evaporates.
     \end{center}
     \caption{
         Shown here is the absolute value of the visibility of a spectrally flat 
-        monopole sky with no absorber walls versus frequency. As can be seen 
-        already, the interferometer does have non-zero sensitivity to the 
-        monopole, though it is plainly clear that the autocorrelation term 
-        (shown in blue) is more sensitive than any of the non-zero 
-        interferometric baseline pairings.
+        monopole sky versus frequency. In this case, there are no absorptive 
+        baffles, just the terrestrial horizon. As can be seen already, the 
+        interferometer does have non-zero sensitivity to the monopole, though 
+        it is plainly clear that the autocorrelation term (shown in blue) is 
+        more sensitive than any of the non-zero interferometric baseline 
+        pairings.
     }
     \label{fig:flat-sky-no-abs-freq}
 \end{figure}
@@ -41,25 +55,102 @@ separations increases, that sensitivity also quickly evaporates.
     \label{fig:flat-sky-no-abs-uv}
 \end{figure}
 
-now speak to absorbers that we tried and how they all performed. show results 
-of monopole sky with absorber, compare to without absorber and show that there 
-is greater sensitivity
+But this simple unit test tells us much more than just the fact that HYPERION 
+is feasible after all. We can also begin to see a characteristic shape of the 
+sensitivity in the \emph{uv}-plane, with peaks and nulls placed at regular 
+intervals in \emph{uv}-space. The predictability of this shape could allow us 
+to use it as a calibration tool, if properly understood. In particular, it 
+could be a valuable way to remove leakage from non-monopole terms into our 
+signal. Given that this characteristic shape derives only from the monopole sky 
+and the shape of the beam, we know that any observational deviations in this 
+shape must come from the sky rather than the system. Therefore, it may be 
+possible to use this information as a way to filter out non-monopole terms from 
+the sky, thus ensuring that we won't mix up spectral wiggles from the 
+combination of various non-monopole sky sources with our expected wiggly 
+reionization global signal, as seen in Fig.~\ref{fig:global-signal}. Instead, 
+we can, effectively, select just the monopole terms of the sky -- the galactic 
+synchrotron background and the reionization global signal -- thus ensuring that 
+the only terms we're left with have simple relationships with frequency that 
+can be easily parsed from the frequency-independent evolution of the 
+reionization term.
 
-We can also begin to see a characteristic shape of the sensitivity in the 
-\emph{uv}-plane, with peaks and nulls placed at regular intervals in 
-\emph{uv}-space. The predictability of this shape could allow us to use it as a 
-calibration tool, if properly understood. In particular, it could be a valuable 
-way to remove leakage from non-monopole terms into our signal. Given that this 
-characteristic shape derives only from the monopole sky and the shape of the 
-beam, we know that any observational deviations in this shape must come from 
-the sky rather than the system. Therefore, it may be possible to use this 
-information as a way to 
+Additionally, this characteristic shape could enable  us to do some weighting 
+of our observational data. By knowing exactly what modes we expect to see the 
+monopole term at its brightest and dimmest, we could properly weight and 
+interpret data at each mode and frequency, enabling us to better compare data 
+points at different points in \emph{uv}-space and frequency.
 
-Additionally, this shape enables us to do some weighting of our observational 
-data. By knowing exactly what modes we expect to see the monopole term at its 
-brightest and dimmest, we can properly weight and interpret our data at each 
-mode and frequency, enabling us to better compare data points at different 
-points in \emph{uv}-space and frequency.
+So we have established that we can detect the monopole with an interferometer, 
+which is step one. But, as we can see, that sensitivity is faint, especially at 
+the high-frequency end of our science band. That by itself is not wholly 
+problematic -- we could just run our observation longer and beat down our 
+sensitivity, assuming we still keep our spacing close enough that our 
+observations don't have to run infinitely long. What is problematic is the 
+strong cross-talk between elements that we know we'll face when we place them 
+that close. We need to make our elements invisible to each other, and we think 
+we can simultaneously enhance our sensitivity to the monopole as well.
 
-\section{Recovered}
+In our next set of tests, we include the absorptive baffles around each 
+antenna, as described in previous chapters. Using the absorption profile of the 
+ferrite tiles, as seen in Fig.~\ref{fig:fe-absorption}, we can see how the 
+monopole sensitivity is changed in the presence of the baffles.
 
+As can be seen in Figures~\ref{fig:flat-sky-fe-abs-freq} 
+and~\ref{fig:flat-sky-fe-abs-uv}, the sensitivity of the autocorrelation signal 
+drops off, which is a nice sanity check on this test -- less signal from the 
+sky getting picked up by the antenna means less bright visibility on the other 
+end. However, while the spectral shape of the interferometric sensitivity 
+changes, we don't see the same drop in sensitivity in the cross-correlation 
+terms that we do in the auto-correlation. Moreover, as seen in 
+Fig.~\ref{fig:flat-sky-fe-abs-freq}, we actually see \emph{increased} 
+sensitivity at the high-frequency end of our science band.
+
+\begin{figure}
+    \begin{center}
+    \includegraphics[width=\linewidth]{/home/kara/documents/hyperion/memos/flat_sky_with_fe_abs_freq_01.png}
+    \end{center}
+    \caption{
+        REWRITE CAPTION
+        Shown here is the absolute value of the visibility of a spectrally flat 
+        monopole sky versus frequency, for an array with absorptive baffles 
+        constructed from ferrite tiles.
+    }
+    \label{fig:flat-sky-fe-abs-freq}
+\end{figure}
+
+Additionally, we can see in Fig.~\ref{fig:flat-sky-fe-abs-uv} that the 
+baselines no longer completely line up their peaks and nulls in $uv$-space.  
+This makes it slightly harder for us to calibrate, as we will have to compare 
+the monopole measurements of each baseline only against matching baselines in 
+the array, rather than by matching the measurements at each $uv$-coordinate in 
+different baseline pairs. It would have been quite convenient for our 
+calibration and data processing purposes to be able to sample points of pure 
+non-monopole foreground at multiple frequencies. However, there are still nulls 
+in multiple frequencies, they just only apply to one baseline at a time, making 
+them less universally helpful for data weighting and analysis.
+
+\begin{figure}
+    \begin{center}
+    \includegraphics[width=\linewidth]{/home/kara/documents/hyperion/memos/flat_sky_with_fe_abs_uv_01.png}
+    \end{center}
+    \caption{
+        REWRITE CAPTION
+        Shown here is the absolute value of the visibility of a spectrally flat 
+        monopole sky with ferrite absorber walls versus uv-baseline.
+    }
+    \label{fig:flat-sky-fe-abs-uv}
+\end{figure}
+
+\section{Recovered Global Signal}
+
+talk about how actual observations will be noisy (random noise from instrument, 
+plus changing non-monopole sky), want to see if these characteristic spectral 
+shapes that we see in our monopole simulation can be used to recover the 
+monopole signal
+
+show figures (need to be generated) from totalSensitivity script, show that we 
+can observe monopole using noisy input data
+
+next steps would be to accurately input non-monopole modes (using global sky 
+model as one of the input maps, alongside 21cm hypothesized global signal) and 
+see if reionization can still be detected
