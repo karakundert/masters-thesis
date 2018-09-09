@@ -218,11 +218,71 @@ ourselves the best shot we could at (artificially) detecting the global signal.
 
 We can combine all this data -- all the baselines and individual integrations 
 over 5 hours and calculated monopole sensitivity coefficients -- by using a 
-least-squares weighted average to invert our visibility into a brightness 
+inverse-variance weighted average to invert our visibility into a brightness 
 temperature.
 
-BLAH BLAH BLAH EQUATIONS. WRITE DOWN THE MATH TO RECOVER THE SIGNAL, SYSTEM OF 
-EQUATIONS (LEAST SQUARES FITTING), LINEAR ALGEBRA
+Specifically, we will be using the characteristic monopole sensitivity 
+coefficients as our weights in an inverse-variance weighting scheme. So, for 
+example, looking at a non-redundant version of our array, for the same 
+frequency bin we would have six different measurements of the visibility, 
+$V(\nu) = [V_{\lambda/2}(\nu), V_{\lambda}(\nu), V_{3\lambda/2}(\nu), 
+V_{2\lambda}(\nu), V_{3\lambda}(\nu), V_{4\lambda}(\nu)]$, where each 
+visibility could be written as:
+
+\begin{equation}
+    V_i = w_i T_{global} + \sigma
+    \label{eq:vis-weight}
+\end{equation}
+
+where $w_i$ is the value of the characteristic monopole sensitivity, 
+$T_{global}$ is the aforementioned global sky temperature, and $\sigma$ is the 
+expected value of the noise in each measurement. In order to recover an 
+estimated value for the global sky temperature, we must find a way to write 
+$T_{global}$ as a function of the measured visibility, the expected noise, and 
+the weight of the measurement.  We can start by first isolating $T_{global}$ 
+from its weight like so:
+
+\begin{equation}
+    \frac{V_i}{w_i} = T_{global} + \frac{\sigma}{w_i}
+    \label{eq:isolated-temp}
+\end{equation}
+
+This seems promising, but we must recall that we do have some cases where the 
+sensitivity of our measurement is very low (i.e. $w_i \ll 1$), resulting in a 
+very large value of $\sigma/w_i$ in your estimate and causing problems. To 
+solve this, we will implement an inverse-variance weighting scheme on our 
+estimation, where the variance of the measurement would be:
+
+\begin{equation}
+    Var\Big(\frac{V_i}{w_i}\Big) = \frac{\sigma^2}{w_i^2}
+    \label{eq:variance}
+\end{equation}
+
+Weighting our temperature measurement by this factor, we get a recovered 
+temperature estimate of:
+
+\begin{equation}
+     \hat{T} = \frac{\sum \frac{V_i}{w_i} \frac{\sigma^2}{w_i^2}}{\sum 
+     \frac{\sigma^2}{w_i^2}}
+     \label{eq:measured-T}
+\end{equation}
+
+In the case that the expected noise of each measurement is the same (e.g. we 
+would expect that the instrumental noise in the frequency bin would be the same 
+in each measurement), then the noise term actually drops out and the above 
+equation simplifies to become:
+
+\begin{equation}
+     \hat{T} = \frac{\sum V_i w_i}{\sum w_i^2}
+     \label{eq:measured-T-simplified}
+\end{equation}
+
+And the variance on each measurement is given by:
+
+\begin{equation}
+    Var(\hat{T}) = \frac{\sigma^2}{\sum w_i^2} \sum \frac{1}{w_i}
+    \label{eq:measured-T-variance}
+\end{equation}
 
 As can be seen in Fig.~\ref{fig:recovered-ferrite}, this method actually works!  
 Our recovered temperature nearly perfectly recreates the true input signal, 
@@ -235,15 +295,26 @@ to the lower frequencies, as seen in Fig.~\ref{fig:flat-sky-fe-abs-freq}.
     \includegraphics[width=\linewidth]{recovered_signal_same_abs.png}
     \end{center}
     \caption{
-        CAPTION
+        Shown here is the recovered reionization global sky temperature, as 
+        measured from a maximally redundant seven element east-west array with 
+        a total integrated observation time of five hours, a flat system 
+        temperature of $T_{sys} = 300$ K, and pure ferrite absorber baffles. As 
+        can be seen, this method of observing the global sky temperature works 
+        well, with nearly perfect recovery of the true monopole sky at low 
+        frequencies (where our array has the highest sensitivities to the 
+        monopole mode) and only small fluctuations (on the order of 3 mK) being 
+        introduced at the low-sensitivity high-frequency end of our science 
+        band. Although this is a highly idealized case, this is a positive 
+        result, indicating that our method of weighting observations can 
+        accurately recreate the true 21cm reionization global signal.
     }
     \label{fig:recovered-ferrite}
 \end{figure}
 
 Obviously this case is pretty idealized. Our thermal noise is unbiased and 
 equal across all frequencies. Our sky is nothing but 21cm reionization monopole 
-signal -- there is no synchrotron emission nor spatial structure from other 
-sources to account for. Our absorbers have been perfectly understood and 
+signal -- there is no galactic synchrotron emission nor spatial structure from 
+other sources to account for. Our absorbers have been perfectly understood and 
 characterized.
 
 One thing we know about previous 21cm reionization global signal experiments is 
@@ -260,7 +331,7 @@ walls as a function of frequency?
 In this case, we perform the exact same observation as above. However, where 
 the data was actually collected using ferrite absorptive baffles, the 
 calibration coefficients were calculated assuming a much simpler absorber 
-model, one with a flat 15 dB absorptivity across the whole science band.  
+model: one with a flat 15 dB absorptivity across the whole science band.  
 Instead of having a monopole sensitivity like that seen in 
 Fig.~\ref{fig:flat-sky-fe-abs-freq}, it looks like 
 Fig.~\ref{fig:flat-sky-15dB-abs-freq}. So what happened to our recovered 21cm 
@@ -295,7 +366,19 @@ signal falls just slightly below the true signal up until a frequency of about
     \includegraphics[width=\linewidth]{recovered_signal_diff_abs.png}
     \end{center}
     \caption{
-        CAPTION
+        Shown here is the recovered reionization global sky temperature, as 
+        measured from a maximally redundant seven element east-west array with 
+        a total integrated observation time of five hours and a flat system 
+        temperature of $T_{sys} = 300$ K. In this case, the data was collected 
+        from an array using ferrite absorber baffles, but was calibrated 
+        assuming the absorber baffles had a flat absorptivity of 15 dB across 
+        the science band. As can be seen, even with this intentional gross 
+        miscalibration of the system, we are still able to recreate a fairly 
+        accurate portrayal of the true 21cm reionization global signal, with 
+        the only major difference being a slight 5 mK exaggeration of the depth 
+        of the absorption feature. This indicates that our weighting method is 
+        robust to an imperfect calibration of the performance of the absorptive 
+        baffles -- a promising result for the feasibility of the project.
     }
     \label{fig:recovered-mismatched}
 \end{figure}
@@ -304,10 +387,10 @@ This is a promising initial result, indicating that the monopole interferometer
 may be more robust to minor calibration issues than its single-element 
 counterparts may be. Our recovery isn't perfect in the case of a 
 miscalibration, but it's still \emph{good} -- our features are still in the 
-right places, the shapes are still there. Nothing crazy or weird has been 
-introduced, suggesting reionization physics that isn't borne out by the reality 
-that a perfectly calibrated system would have revealed. This reassures us that 
-even as we take our system into the backcountry and allow the elements to 
-gently nudge all of our perfect lab calibration to the side, we have 
-constructed a system strong enough to persist in giving us reasonably accurate 
-answers. This result indicates that HYPERION may just have worked.
+right places, the shapes are still there. No false spectral features have been 
+introduced, suggesting reionization physics that contradicts the reality of the 
+true 21cm reionization global signal.  This reassures us that even as we take 
+our system into the backcountry and allow the elements to gently nudge all of 
+our perfect lab calibration to the side, we have constructed a system strong 
+enough to persist in giving us reasonably accurate answers. This result 
+indicates that HYPERION may just have worked.
