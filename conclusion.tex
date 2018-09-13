@@ -1,6 +1,60 @@
 \chapter{Conclusion}
 
-next steps would be to accurately input non-monopole modes (using global sky 
-model as one of the input maps, alongside 21cm hypthesized global signal) and 
-see if reionization can still be detected
+As we have shown, the ideas behind HYPERION are sound. We can manipulate our 
+sensitivity to the global signal by imposing a step function onto the beam of 
+our antennas -- thereby converting the monopole mode into a series of higher 
+order modes with known scale coefficients. We can create this step function 
+both by building HYPERION on the Earth and using the pre-existing horizon to 
+our advantage, and by artificially raising that horizon by building absorptive 
+walls around each antenna. Through in-lab testing, we have found that the most 
+promising absorptive material at our low-frequency ranges is ferrite, though we 
+are also interested in the idea of a resistive mesh, either on its own or 
+layered with the ferrite, depending on its performance. Once we know about the 
+final overall performance of an absorber across our science band, we can 
+simulate a given array design's sensitivity to the monopole sky, and thereby 
+generate the scale coefficients for each antenna pairing in the array. We can 
+use these scale coefficients to the calibrate and process the observational 
+data, recovering the monopole sky and finally getting a glimpse of the global 
+signal.
 
+These results are quite promising, particularly because, as seen in 
+Fig.~\ref{fig:recovered-mismatched}, this data processing method is robust 
+against at least some types of miscalibration. We were able to completely 
+mismatch the true and simulated absorber profiles, and ended up recovering a 
+global signal that was only approximately 5\% different from the true input 
+signal. This indicates that, should HYPERION ever be constructed, those 
+operating it need not worry about constantly monitoring the state of the 
+absorber baffles to get a perfectly accurate measure of their absorptivity for 
+each measurement made -- so long as we take care in our initial measurements of 
+the absorber baffles, we can be confident that they will remain good enough to 
+provide us excellent results in our observations.
+
+Now that we know that these measurements are feasible, and possibly more robust 
+to systemic error than our experimental predecessors, we must now continue to 
+seek a better understanding of our instrumental design and how to optimize it 
+in the face of real observational adversity. So far, we have taken the very 
+optimistic view in our simulations that the sky is purely monopole, that there 
+are no higher order modes in our signal. In reality, we know that the sky at 
+these frequencies is full of galactic structure and extragalactic point 
+sources. We simply don't know how well this method of data analysis will work 
+when we have a realistically spatially-polluted sky.
+
+The next step to prove the merit of a monopole interferometer would be to input 
+a complex sky into the model and see how it behaves. Using accurate global sky 
+models alongside our theoretical reionization signal, we can perform the same 
+process described in Section~\ref{sec:recovered-signal} and assess our ability 
+to recover the reionization global sky, and develop new tools as necessary.
+
+We must also further investigate the realities of the absorbers and how best to 
+construct them. To start, we may first assess the viability of the resistive 
+mesh concept, testing its absorption across our frequency band and comparing it 
+to that of the ferrite tiles. Next, we must begin to explore the full 
+electromagnetic system of our antenna-absorber pairs. How does diffraction 
+affect our absorber spatial profile? Is there coupling between the absorber and 
+the antenna? If so, how does that change our results?
+
+The answers to these questions will determine the long-term viability of this 
+method. At present, all we know is that the idea behind a monopole 
+interferometer is far less far-fetched than it may have originally seemed. With 
+proper calibration and experimental design, it very well could serve a key 
+place in the search for understanding of the epoch of reionization.

@@ -20,24 +20,21 @@ then calculate the visibilities for each baseline separation of that array. We
 will then examine these visibilities to see if we have any sensitivity to the 
 monopole term at all, and if so what form they take.
 
-DON'T TALK ABOUT AIPY, NO ONE USES IT
+For our simulation, we first import a model array, which enables us to carry 
+around a known geometry and baseline separations, along with individual antenna 
+beam patterns and accessible frequencies. With this information and the 
+previously made sky maps, we are now able to calculate our visibilities across 
+many frequencies by using Eq.~\eqref{eq:vis}.
 
-For our simulation, we import a model array using the AIPy AntennaArray 
-framework, which enables us to carry around an array with known geometry and 
-baseline separations, along with individual antenna beam patterns and 
-accessible frequencies. With this information and the previously made sky maps, 
-we are now able to calculate our visibilities across many frequencies by using 
-Eq.~\eqref{eq:vis}.
+More importantly, the antenna beam information within the model array is itself 
+a convenient way to import absorbers into the simulation.  Essentially, within 
+the context of the simulation, the absorbers act as a modification term on the 
+beam pattern, changing the way that each individual antenna sees the sky.
 
-The AntennaArray framework also enables us to carry around models of the beams 
-of the antennas, which is a convenient way to import absorbers into the 
-simulation. Essentially, within the context of the simulation, the absorbers 
-act as a modification term on the beam pattern, changing the way that each 
-individual antenna sees the sky. This works as follows:
+\subsection{Antenna Design and Primary Beam}
 
-BREAK BEAM INTO ITS OWN PRE-SECTION, SHORT (MAYBE 2 PARAGRAPHS?)
-
-\subsection{Absorber Baffles}
+TALK ABOUT SARAS OR SOMETHING IDK, BENEFITS OF FAT DIPOLE (FREQUENCY 
+INDEPENDENCE)
 
 To start, we need a beam. HYPERION uses SARAS-style fat dipole antennas in our 
 instrument, which means we will be using a frequency-invariant dipole beam 
@@ -51,7 +48,10 @@ Eq.~\eqref{eq:dipole-beam}.
     \cos{\theta}}{\sin{\theta}}\Big)
 \end{equation}
 
-The effective antenna beam can then be calculated using 
+\subsection{Absorber Baffles}
+
+Now that we have a baseline antenna beam, we can begin the modification 
+process. The effective antenna beam be calculated using 
 equations~\eqref{eq:absorber-baffle} and~\eqref{eq:absorber-beam}.
 
 In the construction of the absorber baffles within the simulation, the 
@@ -115,8 +115,16 @@ idiosyncracies aren't being mistaken for true signal and science. As such, we
 would strongly prefer an absorber (or combination of absorbers) that has a more 
 uniform performance across the science band.
 
-MENTION THAT FERRITE MAY HAVE DIRECTIONAL ABSORPTIVITY, WE JUST AVERAGED OVER 
-FULL BOX
+That being said, Fig.~\ref{fig:fe-absorption} appears worse than it actually 
+is. The ripples seen in the figure are simply an artifact of the testing setup, 
+and not inherent to the performance of the ferrite itself.
+
+However, there is one additional disclaimer to be made about the measured 
+ferrite absorption. We are assuming that the ferrite absorptivity is the same 
+in all directions -- that the incident angle of the radiation has no effect on 
+its absorptive properties. This isn't necessarily true, but rather is 
+reflective of the limitations of our testing environment, which fundamentally 
+averaged over all directions of incidence. 
 
 Additionally, the ferrite tiles are among the most expensive of the materials 
 we investigated. Even with a very close spacing and therefore relatively small 
@@ -140,15 +148,12 @@ time of writing, only a very introductory level of investigation has been put
 into the resistive mesh idea, so nothing conclusive can be said about its 
 performance as an absorber material.
 
-MENTION THAT WE HAVE IGNORED MUTUAL COUPLING BETWEEN ABSORBER AND ANTENNA, FULL 
-EM MODELING WOUlD BE LOGICAL NEXT STEP
-
 At this point in time, there really haven't been any meaningful field tests 
-upon which I could report. However, the most important things for us to 
-investigate in the field would be a) ability of the absorber to mitigate the 
-cross-talk between antennas and b) the efficacy of the baffles' ability to 
-impose a spatial temperature variation from the antenna's point-of-view and how 
-that efficacy evolves over frequency.
+upon which to report. However, the most important things for us to investigate 
+in the field would be a) ability of the absorber to mitigate the cross-talk 
+between antennas and b) the efficacy of the baffles' ability to impose a 
+spatial temperature variation from the antenna's point-of-view and how that 
+efficacy evolves over frequency.
 
 In Fig.~\ref{fig:field-test}, we see one possible arrangement of the absorber 
 materials in order to assess the ability of the absorber at mitigating 
@@ -188,6 +193,14 @@ that the roll-off in absorber effectiveness is fairly sharp with $a = 0.01$.
 ROLL-OFF IS FIRST ORDER APPROXIMATION OF DIFFRACTION, WE DON'T KNOW HOW EXACTLY 
 TO PARAMETERIZE $a$, DISCUSS HOW DIFFERENT $a$ VALUES IMPACT GLOBAL SIGNAL 
 RECOVERY
+
+
+
+In all cases, the next investigative step would be to create a full 
+electromagnetic model of the combined antenna-absorber baffle system. Not only 
+would this allow us to further investigate diffraction effects, it would also 
+allow us to better understand the mutual coupling between the absorber and the 
+antenna.
 
 \subsection{Array Parameters}
 
