@@ -33,12 +33,9 @@ beam pattern, changing the way that each individual antenna sees the sky.
 
 \subsection{Antenna Design and Primary Beam}
 
-TALK ABOUT SARAS OR SOMETHING IDK, BENEFITS OF FAT DIPOLE (FREQUENCY 
-INDEPENDENCE)
-
 To start, we need a beam. HYPERION uses SARAS-style fat dipole antennas in our 
 instrument, which means we will be using a frequency-invariant dipole beam 
-pattern in our simulation to match~\citep{patra2013}. This is the base beam 
+pattern in our simulation to match~\citep{patra2013}.  This is the base beam 
 model used throughout the simulation, calculated using 
 Eq.~\eqref{eq:dipole-beam}.
 
@@ -47,6 +44,11 @@ Eq.~\eqref{eq:dipole-beam}.
     A(\theta, \phi, \nu) = \cos\Big(\frac{\frac{\pi}{2} 
     \cos{\theta}}{\sin{\theta}}\Big)
 \end{equation}
+
+This frequency-invariance is important, as it removes one dangerous source of 
+calibration errors in the experiment. Were there to be a changing beam shape 
+due to frequency, then the improper calibration of those changes could 
+introduce false signatures into the data.
 
 \subsection{Absorber Baffles}
 
@@ -187,14 +189,16 @@ We also haven't tested how the absorber behaves at the edges. Most importantly,
 we don't have a good grasp on how big of a problem diffraction over the top of 
 the baffle walls is, and we don't have a model of the smoothing parameter $a$ 
 from Eq.~\eqref{eq:absorber-baffle} or how it evolves with different baffle 
-shapes. For the simulation, we have assumed that there is no diffraction and 
-that the roll-off in absorber effectiveness is fairly sharp with $a = 0.01$.
-
-ROLL-OFF IS FIRST ORDER APPROXIMATION OF DIFFRACTION, WE DON'T KNOW HOW EXACTLY 
-TO PARAMETERIZE $a$, DISCUSS HOW DIFFERENT $a$ VALUES IMPACT GLOBAL SIGNAL 
-RECOVERY
-
-
+shapes. As a simple, first-order approximation, we have used the hyperbolic 
+tangent functions in Eq.~\eqref{eq:absorber-baffle} and have set the roll-off 
+in absorber effectiveness at a fairly sharp step of $a = 0.01$. The sharpness 
+of this step is what imprints a strong temperature difference onto our sky, 
+aiding us in recovering the global signal. If we were to instead use a slower 
+roll-off of $a = 0.1$ or even $a = 0.5$, we would look more like a traditional 
+dipole beam pattern, and we would be unable to really push that monopole signal 
+into the higher order spatial modes that give us interferometric sensitivity. 
+That being said, we don't know exactly how to parameterize diffraction, or if 
+using this $a$-parameter is a reasonable choice for doing so. 
 
 In all cases, the next investigative step would be to create a full 
 electromagnetic model of the combined antenna-absorber baffle system. Not only 
@@ -220,10 +224,8 @@ different separations. We have chosen to test six possible separations: 1.5 m,
 
 \subsection{Modeling the Sky}
 
-CITE HEALPIX, GORSKI
-
 Finally, we need something to actually observe. We can construct a model of the 
-sky using the AIPy Healpix tools, generating maps of the sky at multiple 
+sky using Healpix~\citep{gorski2005}, generating maps of the sky at multiple 
 frequencies and storing them in bundles. These maps are contained and can be 
 indexed by coordinates, making them easy to use for simulating observations and 
 interferometric visibilities.
