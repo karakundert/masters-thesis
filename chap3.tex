@@ -2,22 +2,23 @@
 
 \section{Absorber -- A New Approach to Monopole Interferometry}
 
-If you were to wander onto almost any given radio telescope currently active in 
-taking observations, you're almost certain to find some kind of reflective 
-material underneath the antennas (either in the form of a ground screen or a 
-reflective dish). One thing you're not likely to find is any kind of absorptive 
-material -- we as astronomers are already fighting an uphill battle on 
-attaining the very fine sensitivities needed to detect celestial sources, we 
-really need all the photons we can get. 
+If you were to wander onto site at almost any given radio telescope currently 
+active in taking observations, you're almost certain to find some kind of 
+reflective material underneath the antennas (either in the form of a ground 
+screen or a reflective dish). One thing you're not likely to find is any kind 
+of absorptive material -- we as astronomers are already fighting an uphill 
+battle on attaining the very fine sensitivities needed to detect celestial 
+sources, we really need all the photons we can get. 
 
-However, it is not unheard of. While absorbers have never been used in the 
-element design of a reionization project to date, they have been used by cosmic 
-microwave background (CMB) experiments. Absorptive structures, or baffles, to 
-control pickup from outside the main beam, which can be a source of systemic 
-errors~\citet{essinger-hileman2016}. By surrounding the receiver with an 
-absorptive material, rather an a reflective one as seen in most standard radio 
-telescope designs, one can better control the exact signal that will be seen in 
-the sidelobes of the beam, and thereby better calibrate the system in turn.
+However, it is not unheard of. While absorbers haven't traditionally been used 
+in the element design of a reionization project, they are regularly used by 
+cosmic microwave background (CMB) experiments. Absorptive structures, or 
+baffles, control pickup from outside the main beam, which can be a source of 
+systemic errors~\citep{essinger-hileman2016}. By surrounding the receiver with 
+an absorptive material, rather an a reflective one as seen in most standard 
+radio telescope designs, one can better control the exact signal that will be 
+seen in the sidelobes of the beam, and thereby better calibrate the system in 
+turn.
 
 This same principle applies in the case of a monopole interferometer, where use 
 of an absorber can not only be beneficial but actually fundamental to the 
@@ -124,8 +125,8 @@ perfect blackbody matching the ambient temperature of the array everywhere
 else.
 
 One way to understand the absorption of the blackbody would be to think in 
-terms of optical depth, and the above case is one in which the absorber has an 
-optical depth of $\tau = \infty$. This thinking also enables us to begin to 
+terms of optical depth, where the above case is one in which the absorber has 
+an optical depth of $\tau = \infty$. This thinking also enables us to begin to 
 understand more realistic scenarios, where we don't have perfect absorption 
 between our antennas.
 
@@ -134,7 +135,7 @@ between our antennas.
     \label{eq:abs-optical-depth}
 \end{equation}
 
-where $I_{obs}$ is the observed sky brightness, $I_{sky}$ is the sky 
+\noindent where $I_{obs}$ is the observed sky brightness, $I_{sky}$ is the sky 
 brightness, $S_{abs}$ is the thermal brightness from the absorber, and $\tau$ 
 is the optical depth of the absorber. This equation is a variation on the 
 radiative transfer equation, where the sky is our source and the absorber is 
@@ -142,10 +143,10 @@ the medium through which the radiation is travelling.
 
 In this quantitative construction of the reception of an element, we can see 
 that the strength of the absorber determines the strength of the spatial cutoff 
--- particularly, in the case of a poor absorber, the above equation shows that 
-there will be a great deal of sky leakage into the ``horizon". In particular, 
-for reionization studies, this will be problematic due to the brightness of the 
-sky at these frequencies from galactic synchrotron emission. So a weak absorber 
+-- in the case of a poor absorber, the above equation shows that there will be 
+a great deal of sky leakage into the ``horizon". In particular, for 
+reionization studies, this will be problematic due to the brightness of the sky 
+at these frequencies from galactic synchrotron emission. So a weak absorber 
 will barely put a dent in the sky brightness, diminishing the effectiveness of 
 the imposed window, and keeping the reionization global signal power in the 
 lower, harder to detect spatial modes.
@@ -162,7 +163,7 @@ better control those parameters.
 
 Finally, if the absorber is optically thin, then antennas on either side of an 
 absorber baffle will see coherent signal coming from the absorber, contributing 
-to an overall noise bias that may be hard to calibrate for.
+to an overall noise bias that may be hard to calibrate.
 
 \section{Overview of the Instrumental Design}
 
@@ -184,7 +185,7 @@ sensitivity to the monopole term, as this will best enable us to mitigate
 systemic problems in our instrument and perform a successful experiment.
 
 The next step is to add the absorber, which can essentially be treated as a 
-modification to the antenna's beam. This calculation is done using 
+modification to the antenna's beam. We perform this calculation using 
 Eq.~\eqref{eq:absorber-baffle},
 
 \begin{equation}
@@ -195,7 +196,7 @@ Eq.~\eqref{eq:absorber-baffle},
     \theta_{0})}{a}\Big)\Big)
 \end{equation}
 
-where $\alpha(\nu)$ is the absorptivity by frequency of the absorber, 
+\noindent where $\alpha(\nu)$ is the absorptivity by frequency of the absorber, 
 $\theta_0$ is the cutoff angle of the structure (i.e. $\theta_0$ is the height 
 of the absorber walls), and $a$ is the smoothing parameter that blends the 
 transition between the absorber and the sky.

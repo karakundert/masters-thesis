@@ -15,10 +15,10 @@ phase difference is what creates an interference pattern, which is what then
 gives us the information we seek about the light source, which typically comes 
 in the form of fringes. 
 
-What if instead of using mirrors and beam splitters, we built two identical 
+But what if instead of using mirrors and beam splitters, we built two identical 
 small telescopes that were physically separated in space, then pointed them at 
 the same astronomical source. Because they're not in the same spot but are 
-separated by a ``baseline", there must be a difference in the path lengths 
+separated by a ``baseline", i.e. there must be a difference in the path lengths 
 between the telescopes and the source. This is the fundamental idea behind 
 radio interferometers. Now let's explore the mathematics.
 
@@ -28,7 +28,7 @@ consider the case of a two-element interferometer (that is, an interferometer
 with two antennas and one ``baseline" between them) observing a very distant 
 source (so the emissions from the source will come in the form of plane waves 
 and the antennas will point in the same direction on the sky).  This 
-interferometer will be fixed in space - so, no rotation or motion of the 
+interferometer will be fixed in space -- so, no rotation or motion of the 
 antennas themselves.  We will also be looking at just one frequency, so the 
 signals coming in will be perfectly sinusoidal with one known wavelength.  We 
 won't be worrying about anything in the backend, so we'll say that we have no 
@@ -41,8 +41,8 @@ and that the source is small enough in angular size that we can approximate the
 sky as flat and two-dimensional. 
 
 What does that leave us? Two identical sensors that are separated by a vector 
-distance $\mathbf{b}$ - this is our baseline. These sensors are both pointed at 
-a quasi-monochromatic source of frequency $\nu$, in the vector direction 
+distance $\mathbf{b}$ -- this is our baseline. These sensors are both pointed 
+at a quasi-monochromatic source of frequency $\nu$, in the vector direction 
 $\mathbf{s}$.  Combining these fundamental numbers, we then get the key 
 quantity $\tau_g = \mathbf{b} \cdot \mathbf{s} / c$, which is the geometric 
 time delay. That's the extra time needed for the signal to reach the more 
@@ -88,15 +88,15 @@ direction cosine. We can then rewrite our response function as $R_C = P \cos{(2
 rapid the frequency of the response function $R_C$. This is what radio 
 astronomers call ``fringes".
 
-We can also begin to see why we want to have many sets of antennas - each 
+We can also begin to see why we want to have many sets of antennas -- each 
 baseline will only give us information about one set of fringes. In order to 
 reconstruct a full image of an extended source, we need to be able to observe 
 more than one spatial frequency. The response from an extended source is 
-obtained by summing the responses at each antenna to all emission over the sky, 
-multiplying the two for each pair of antennas, and averaging. Assuming that the 
-source itself is spatially incoherent (e.g. that the emission from one side of 
-the galaxy isn't related to the emission from the other side), the averaging 
-and integrals can be interchanged, giving us
+obtained by summing the responses at each antenna to all emission over the sky 
+by solid angle $\Omega$, multiplying the two for each pair of antennas, and 
+averaging.  Assuming that the source itself is spatially incoherent (e.g. that 
+the emission from one side of the galaxy isn't related to the emission from the 
+other side), the averaging and integrals can be interchanged, giving us
 
 \begin{equation}
     R_C = \iint I(\mathbf s) \cos(2\pi\nu\mathbf{b}\cdot\mathbf{s}/c) d\Omega
@@ -104,7 +104,7 @@ and integrals can be interchanged, giving us
 \end{equation}
 
 We can now see the relationship between what we are measuring to what we want 
-to observe - we have linked the source brightness $I_\nu(\mathbf{s})$ to the 
+to observe -- we have linked the source brightness $I_\nu(\mathbf{s})$ to the 
 even interferometer response $R_C$. To complete the image of the sky, we can 
 observe the odd interferometer response $R_S$, which is the sinusoidal 
 equivalent of $R_C$, by slipping in a $90^{\circ}$ phase offset along one of 
@@ -221,7 +221,7 @@ Consider the variable $u$, which is defined as the baseline separation of two
 antennas measured in wavelengths in Eq.~\eqref{eq:u}.  Based on 
 Eq.~\eqref{eq:R_C}, we also know that $R_C \approx \cos(2\pi u l)$, meaning 
 that the number of whole fringes imposed across the sky for any given 
-separation will be $N_f = 2u$. 
+separation will be $N_f = 2ul$. 
 
 This in turn means that a pair of antennas separated by $u$ wavelengths will be 
 most sensitive to objects with an angular scale of about $\theta = 1 / u$, 
@@ -314,7 +314,7 @@ hat. And, most importantly for our goals, a top-hat signal doesn't necessarily
 integrate to zero and therefore may be observable with an 
 interferometer~\citep{venumadhav2016}.
 
-That being said, a top-hat signal that spatially broad still isn't easily 
+That being said, a top-hat signal as wide as the horizon still isn't easily 
 observable with an interferometer. From our knowledge of Fourier transformed, 
 we know that a broad spatial cut-off translates into a narrow spread of powers 
 in the visibility domain -- i.e. most of the monopole power will remain in very 
@@ -323,8 +323,8 @@ into a signal that we can get at with an interferometer, we're going to have to
 constrict the scale of our spatial top hat.
 
 What we need to do is artificially push our monopole term into higher modes -- 
-modes that we are in control of. Or, in Fourier terminology, we need to apply a 
-top-hat function to our monopole signal. 
+modes that we are in control of. Or, in Fourier terminology, we need to apply 
+our own top-hat function to our monopole signal. 
 
 In doing so, we will generate a visibility sensitivity in the shape of a sinc 
 function -- meaning we will have sensitivity to our monopole term in many 
@@ -341,13 +341,13 @@ given point in the $uv$-plane.
         This figure shows the Fourier relationship between the two-dimensional 
         top hat function and a Bessel function. This image can be thought of as 
         an idealized cartoon of the aperture and visibility planes of our 
-        proposed interferometer. On the left, we see the imposed top-hat, where 
-        the yellow portion would be the portion of monopole sky visible to the 
-        antenna and the blue would be the perfect absorber. On the right, we 
-        have performed a two-dimensional Fourier transform to convert into the 
-        visibility plane (i.e. to see the spatial modes to which we are 
-        observationally sensitive), and we see this rippling function centered 
-        around the zero-spacing mode.
+        proposed interferometer. On the left, we see the imposed top-hat in the 
+        aperture frame, where the yellow portion would be the portion of 
+        monopole sky visible to the antenna and the blue would be the perfect 
+        absorber.  On the right, we have performed a two-dimensional Fourier 
+        transform to convert into the visibility plane (i.e. to see the spatial 
+        modes to which we are observationally sensitive), and we see this 
+        rippling function centered around the zero-spacing mode.
     }
     \label{fig:sinc}
 \end{figure}
@@ -361,10 +361,11 @@ rotationally symmetric valley (particularly one deep enough to actually
 meaningfully raise the horizon of our antennas).
 
 So we must find a way to artificially raise the horizon of our antennas.  
-Moreso, as described in~\citet{venumadhav2016}, we must either allow our 
+Moreover, as described in~\citet{venumadhav2016}, we must either allow our 
 antennas to freely cross-talk (thereby eliminating the vast majority of 
-benefits gained from using an interferometric setup) or we must introduce a 
-source of noise from lossy components (e.g. the ground or other signal 
+benefits gained from using an interferometric setup, such as reduced 
+instrumental noise bias and finer spatial filtering) or we must introduce a 
+source of noise from lossy components (e.g.  the ground or other signal 
 absorbers, rather than reflectors or transmitters) in order to maintain a 
 sensitivity to the global signal. As described in 
 Section~\ref{sec:brief-overview}, the more closely spaced your elements, the 

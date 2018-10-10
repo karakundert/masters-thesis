@@ -10,8 +10,8 @@ reionization?
 
 \section{Simulated Visibilities}
 
-Fundamentally, we are simply trying to calculate the visibility to the sky with 
-a specific array set-up. We can describe this mathematically using the 
+Fundamentally, we are simply trying to calculate the sky visibility with a 
+specific array set-up. We can describe this mathematically using the 
 interferometric framework developed in Eq.~\eqref{eq:vis-allsky}. For the 
 specific case we are investigating of a monopole sky and with absorptive 
 baffles modifying the antenna beam, we get Eq.~\eqref{eq:vis-global-signal}:
@@ -22,9 +22,9 @@ baffles modifying the antenna beam, we get Eq.~\eqref{eq:vis-global-signal}:
     \label{eq:vis-global-signal}
 \end{equation}
 
-where $T_global$ is the temperature of the monopole sky, $A(\mathbf{S})$ is the 
-antenna beam, $e^{-\tau(\mathbf{s})}$ is the spatial absorptivity, which is a 
-function of direction and frequency. Here we see that the monopole sky has a 
+where $T_{global}$ is the temperature of the monopole sky, $A(\mathbf{s})$ is 
+the antenna beam, $e^{-\tau(\mathbf{s})}$ is the spatial absorptivity, which is 
+a function of direction and frequency. Here we see that the monopole sky has a 
 convenient quality in that its lack of spatial information allows us to pull it 
 out in front of the integral as a constant factor.
 
@@ -40,8 +40,8 @@ We can begin with a very simplified proof-of-concept case. We will construct an
 array with no absorbers and a flat terrestrial horizon. Additionally, we will 
 have beams with perfect receptivity in all directions, and a sky temperature of 
 exactly $T_{global} = 1.0$ K across our entire observational band. This will be 
-our most basic unit test -- something with which to check our intuition against 
-and prove that the idea behind HYPERION is sound.
+our most basic unit test -- something with which to check our intuition and 
+prove that the idea behind HYPERION is sound.
 
 As expected and  as can be easily seen in 
 Figures~\ref{fig:flat-sky-no-abs-freq} and~\ref{fig:flat-sky-no-abs-uv}, all 
@@ -58,10 +58,10 @@ sensitivity to the monopole also quickly evaporates.
         Shown here is the absolute value of the visibility of a spectrally flat 
         monopole sky versus frequency. In this case, there are no absorptive 
         baffles, just the terrestrial horizon. As can be seen already, the 
-        interferometer does have non-zero sensitivity to the monopole, though 
-        it is plainly clear that the autocorrelation term (shown in blue) is 
-        more sensitive than any of the non-zero interferometric baseline 
-        pairings.
+        interferometer does have a non-zero sensitivity to the monopole, though 
+        it is plainly clear that the autocorrelation or zero-spacing term 
+        (shown in blue) is more sensitive than any of the non-zero 
+        interferometric baseline pairings.
     }
     \label{fig:flat-sky-no-abs-freq}
 \end{figure}
@@ -80,23 +80,23 @@ sensitivity to the monopole also quickly evaporates.
 \end{figure}
 
 But this simple unit test tells us much more than just the fact that HYPERION 
-is feasible after all. We can also begin to see a characteristic shape of the 
-sensitivity in the \emph{uv}-plane, with peaks and nulls placed at regular 
-intervals in \emph{uv}-space. The predictability of this shape could allow us 
-to use it as a calibration tool, if properly understood. In particular, it 
-could be a valuable way to remove leakage from non-monopole terms into our 
-signal. Given that this characteristic shape derives only from the monopole sky 
-and the shape of the beam, we know that any observational deviations in this 
-shape must come from the sky rather than the system. Therefore, it may be 
-possible to use this information as a way to filter out non-monopole terms from 
-the sky, thus ensuring that we won't mix up spectral wiggles from the 
-combination of various non-monopole sky sources with our expected wiggly 
-reionization global signal, as seen in Fig.~\ref{fig:global-signal}. Instead, 
-we can, effectively, select just the monopole terms of the sky -- the galactic 
-synchrotron background and the reionization global signal -- thus ensuring that 
-the only terms we're left with have simple relationships with frequency that 
-can be easily parsed from the frequency-independent evolution of the 
-reionization term.
+is feasible after all. As seen in Fig.~\ref{fig:flat-sky-no-abs-uv}, we can 
+also begin to see a characteristic shape of the sensitivity in the 
+\emph{uv}-plane, with peaks and nulls placed at regular intervals in 
+\emph{uv}-space. The predictability of this shape could allow us to use it as a 
+calibration tool, if properly understood. In particular, it could be a valuable 
+way to remove leakage from non-monopole terms into our signal. Given that this 
+characteristic shape derives only from the monopole sky and the shape of the 
+beam, we know that any observational deviations in this shape must come from 
+the sky rather than the system.  Therefore, it may be possible to use this 
+information as a way to filter out non-monopole terms from the sky, thus 
+ensuring that we won't mix up spectral wiggles from the combination of various 
+non-monopole sky sources with our expected wiggly reionization global signal, 
+as seen in Fig.~\ref{fig:global-signal}. Instead, we can, effectively, select 
+just the monopole terms of the sky -- the galactic synchrotron background and 
+the reionization global signal -- thus ensuring that the only terms we're left 
+with have simple relationships with frequency that can be easily parsed from 
+the frequency-independent evolution of the reionization term.
 
 Additionally, this characteristic shape could enable  us to do some weighting 
 of our observational data. By knowing exactly what modes we expect to see the 
@@ -108,11 +108,11 @@ So we have established that we can detect the monopole with an interferometer,
 which is step one. But, as we can see, that sensitivity is faint, especially at 
 the high-frequency end of our science band. That by itself is not wholly 
 problematic -- we could just run our observation longer and beat down our 
-sensitivity, assuming we still keep our spacing close enough that our 
-observations don't have to run infinitely long. What is problematic is the 
-strong cross-talk between elements that we know we'll face when we place them 
-that close. We need to make our elements invisible to each other, and we think 
-we can simultaneously enhance our sensitivity to the monopole as well.
+noise, assuming we still keep our spacing close enough that our observations 
+don't have to run infinitely long. What is problematic is the strong cross-talk 
+between elements that we know we'll face when we place them closely. We need to 
+make our elements invisible to each other, and we think we can simultaneously 
+enhance our sensitivity to the monopole as well.
 
 In our next set of tests, we include the absorptive baffles around each 
 antenna, as described in previous chapters. Using the absorption profile of the 
@@ -122,8 +122,8 @@ monopole sensitivity is changed in the presence of the baffles.
 As can be seen in Figures~\ref{fig:flat-sky-fe-abs-freq} 
 and~\ref{fig:flat-sky-fe-abs-uv}, the sensitivity of the autocorrelation signal 
 drops off, which is a nice sanity check on this test -- less signal from the 
-sky getting picked up by the antenna means less bright visibility on the other 
-end. However, while the spectral shape of the interferometric sensitivity 
+sky getting picked up by the antenna means a less bright visibility on the 
+other end. However, while the spectral shape of the interferometric sensitivity 
 changes, we don't see the same drop in sensitivity in the cross-correlation 
 terms that we do in the auto-correlation. Moreover, as seen in 
 Fig.~\ref{fig:flat-sky-fe-abs-freq}, we actually see \emph{increased} 
@@ -168,12 +168,12 @@ absorptivity of the baffles in frequency space.
     \end{center}
     \caption{
         Shown here is the absolute value of the visibility of a spectrally flat 
-        monopole sky with ferrite absorber walls versus uv-baseline. We can see 
-        that, in comparison to Fig.~\ref{fig:flat-sky-no-abs-uv}, the overall 
-        shape of the characteristic monopole sensitivity is stretched in 
-        $uv$-space, indicating that our imposed top-hat windowing function has 
-        had the intended effect of pushing the monopole into higher order (and 
-        more sensitive) spatial modes. However, we also see that the 
+        monopole sky with ferrite absorber walls versus $uv$-baseline. We can 
+        see that, in comparison to Fig.~\ref{fig:flat-sky-no-abs-uv}, the 
+        overall shape of the characteristic monopole sensitivity is stretched 
+        in $uv$-space, indicating that our imposed top-hat windowing function 
+        has had the intended effect of pushing the monopole into higher order 
+        (and more sensitive) spatial modes. However, we also see that the 
         sensitivity of the various baseline pairings of the array no longer 
         fall on top of one another. This is due to the frequency-dependent 
         nature of the ferrite as an absorber. Were we to find a way to even out 
@@ -189,7 +189,7 @@ absorptivity of the baffles in frequency space.
 \label{sec:recovered-signal}
 
 Finally, we come to the question of whether or not we can accurately interpret 
-our interferometric data in order to actually recover monopole sky, and in 
+our interferometric data in order to actually recover the monopole sky, and in 
 doing so observe the 21cm global signal of reionization. More to the point, we 
 want to know if -- by knowing this characteristic monopole sensitivity at each 
 frequency -- we can combine all of our data from the array, and each baseline 
@@ -197,8 +197,8 @@ separation pairing, and accurately recreate the true global signal.
 
 To do this, we start by performing the exact same calculation described in 
 Eq.~\eqref{eq:vis-global-signal} with a couple of key parameter changes. First 
-off is that our $T_{global}$ is no longer a flat 1.0 K across all frequencies.  
-instead, we import the ARES model of the 21cm reionization global signal, which 
+off, our $T_{global}$ is no longer a flat 1.0 K across all frequencies.  
+Instead, we import the ARES model of the 21cm reionization global signal, which 
 is similar in its spectral behavior to 
 Fig.~\ref{fig:global-signal}~\citep{mirocha2014}. We also construct our 
 absorptive baffles out of ferrite tiles, i.e. using an absorption profile 
@@ -212,12 +212,12 @@ temperature in each frequency bin of about $T_{rms} = 1.6$ mK, which should
 ensure that our 21cm reionization signal is plenty visible. 
 
 Finally, it is worth noting at this point that our array of antennas were 
-arranged in a line, giving us a good set of redundant baselines. We took 
-advantage of these duplicate measurements in this test, in order to give 
-ourselves the best shot we could at (artificially) detecting the global signal.
+arranged in a line, resulting in a set of redundant baselines. We took 
+advantage of the duplicate measurements in this test in order to give ourselves 
+the best shot we could at (artificially) detecting the global signal.
 
 We can combine all this data -- all the baselines and individual integrations 
-over 5 hours and calculated monopole sensitivity coefficients -- by using a 
+over 5 hours and calculated the monopole sensitivity coefficients by using a 
 inverse-variance weighted average to invert our visibility into a brightness 
 temperature.
 
@@ -226,8 +226,8 @@ coefficients as our weights in an inverse-variance weighting scheme. So, for
 example, looking at a non-redundant version of our array, for the same 
 frequency bin we would have six different measurements of the visibility, 
 $V(\nu) = [V_{\lambda/2}(\nu), V_{\lambda}(\nu), V_{3\lambda/2}(\nu), 
-V_{2\lambda}(\nu), V_{3\lambda}(\nu), V_{4\lambda}(\nu)]$, where each 
-visibility could be written as:
+V_{2\lambda}(\nu), V_{3\lambda}(\nu), V_{4\lambda}(\nu)]$. Each visibility 
+could be written as:
 
 \begin{equation}
     V_i = w_i T_{global} + \sigma
@@ -249,9 +249,9 @@ from its weight like so:
 
 This seems promising, but we must recall that we do have some cases where the 
 sensitivity of our measurement is very low (i.e. $w_i \ll 1$), resulting in a 
-very large value of $\sigma/w_i$ in your estimate and causing problems. To 
-solve this, we will implement an inverse-variance weighting scheme on our 
-estimation, where the variance of the measurement would be:
+very large value of $\sigma/w_i$ in the estimate and causing problems. To solve 
+this, we will implement an inverse-variance weighting scheme on our estimation, 
+where the variance of the measurement would be:
 
 \begin{equation}
     Var\Big(\frac{V_i}{w_i}\Big) = \frac{\sigma^2}{w_i^2}
@@ -287,8 +287,8 @@ Finally, the variance on each measurement is given by:
 As can be seen in Fig.~\ref{fig:recovered-ferrite}, this method actually works!  
 Our recovered temperature nearly perfectly recreates the true input signal, 
 with small fluctuations in the brightness temperature only being introduced at 
-high frequencies where the sensitivity is expected to be quite low as compared 
-to the lower frequencies, as seen in Fig.~\ref{fig:flat-sky-fe-abs-freq}.
+high frequencies where the sensitivity is expected to be quite low relative to 
+the lower frequencies, as seen in Fig.~\ref{fig:flat-sky-fe-abs-freq}.
 
 \begin{figure}
     \begin{center}
@@ -363,7 +363,7 @@ reionization temperature profile?
         pairings ($\lambda/2$, $\lambda$, and $3\lambda/2$) using either a 
         ferrite absorber baffle (dashed line) or a flat 15 dB absorber baffle 
         (solid line). As can be seen, these two cases overall have fairly 
-        similar sensitivities have fairly strong overlap in many places.  
+        similar sensitivities, and indeed actually overlap in many places.  
         Interestingly, the two absorbers aren't uniformly better or worse than 
         each other, with the ferrite having greater low-frequency sensitivity 
         in the $\lambda/2$ case (blue lines), and worse low-frequency 
@@ -416,4 +416,4 @@ true 21cm reionization global signal.  This reassures us that even as we take
 our system into the backcountry and allow the elements to gently nudge all of 
 our perfect lab calibration to the side, we have constructed a system strong 
 enough to persist in giving us reasonably accurate answers. This result 
-indicates that HYPERION may just have worked.
+indicates that HYPERION may just have worked, had it been given a chance.

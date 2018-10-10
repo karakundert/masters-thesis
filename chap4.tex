@@ -18,7 +18,7 @@ Fundamentally, we will be doing all the same steps that have been laid out in
 the previous three chapters. We will create a model sky and a model array, and 
 then calculate the visibilities for each baseline separation of that array. We 
 will then examine these visibilities to see if we have any sensitivity to the 
-monopole term at all, and if so what form they take.
+monopole term at all, and if so what form it takes.
 
 For our simulation, we first import a model array, which enables us to carry 
 around a known geometry and baseline separations, along with individual antenna 
@@ -132,8 +132,6 @@ Additionally, the ferrite tiles are among the most expensive of the materials
 we investigated. Even with a very close spacing and therefore relatively small 
 baffle structures, the costs of acquiring enough ferrite to create an array 
 quickly becomes overwhelming to the budget.
-%\footnote{Of course, there's no longer any need to worry about that because 
-%there is no budget -- this project dies alongside my academic ideals.}.
 
 Other candidate absorbers include mats of Zotefoam Plastazote\textregistered, 
 the AEP-EM low-frequency pyramidal foam absorber from DJM Electronics, and the 
@@ -225,8 +223,8 @@ different separations. We have chosen to test six possible separations: 1.5 m,
 \subsection{Modeling the Sky}
 
 Finally, we need something to actually observe. We can construct a model of the 
-sky using Healpix~\citep{gorski2005}, generating maps of the sky at multiple 
-frequencies and storing them in bundles. These maps are contained and can be 
+sky, generating maps of the sky at multiple frequencies using HEALPIX and 
+storing them in bundles~\citep{gorski2005}. These maps are contained and can be 
 indexed by coordinates, making them easy to use for simulating observations and 
 interferometric visibilities.
 
